@@ -3,417 +3,472 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تك فيكس | صيانة بوتجازات وسخانات غاز – قطع غيار أصلية</title>
-  <meta name="description" content="خدمة صيانة بوتجازات وسخانات غاز منزلية بأسعار مناسبة وضمان على الإصلاح. قطع غيار أصلية، فنيين معتمدون. اتصل الآن!" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --orange: #f97316;
-      --orange-dark: #ea580c;
-      --green: #25d366;
-      --green-dark: #128c7e;
-      --bg: #0f0f1a;
-      --card: rgba(255,255,255,0.04);
-      --border: rgba(255,255,255,0.08);
-      --text: #ffffff;
-      --text-muted: rgba(255,255,255,0.5);
-      --text-dim: rgba(255,255,255,0.3);
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Cairo', 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      background-image:
-        radial-gradient(ellipse at 20% 0%, rgba(249,115,22,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 100%, rgba(59,130,246,0.05) 0%, transparent 60%);
-    }
-    button { font-family: 'Cairo', sans-serif; cursor: pointer; }
-    input, select, textarea { font-family: 'Cairo', sans-serif; }
-    a { text-decoration: none; }
+        import { useState, useEffect, useRef } from "react";
 
-    /* ── NAVBAR ── */
-    #navbar {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(15,15,26,0.92);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 20px;
-    }
-    .nav-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; align-items: center; height: 64px; gap: 16px;
-    }
-    .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-    .logo-icon {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-      display: flex; align-items: center; justify-content: center; font-size: 20px;
-    }
-    .logo-text { font-weight: 800; font-size: 15px; line-height: 1; }
-    .logo-sub { font-size: 10px; color: var(--text-dim); line-height: 1.4; }
-    .nav-links { display: flex; gap: 4px; margin-right: auto; }
-    .nav-btn {
-      padding: 8px 14px; border-radius: 8px; border: none;
-      background: transparent; color: var(--text-muted);
-      font-size: 13px; font-weight: 600; transition: all .2s;
-    }
-    .nav-btn.active, .nav-btn:hover { background: rgba(249,115,22,0.15); color: var(--orange); }
-    .nav-cta {
-      padding: 10px 18px; border-radius: 10px; border: none;
-      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-      color: #fff; font-size: 13px; font-weight: 700;
-      box-shadow: 0 4px 20px rgba(249,115,22,0.3);
-      white-space: nowrap; transition: transform .2s;
-    }
-    .nav-cta:hover { transform: translateY(-1px); }
+// ============================================================
+// WHATSAPP UTILITY - تحويل البيانات لرابط واتس آب
+// ============================================================
+const WHATSAPP_NUMBER = "201001234567"; // ← غيّر لرقمك
 
-    /* ── SECTIONS ── */
-    .section { display: none; }
-    .section.active { display: block; }
+function buildWhatsAppURL(message) {
+  const encoded = encodeURIComponent(message);
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
+}
 
-    /* ── HERO ── */
-    .hero {
-      text-align: center; padding: 80px 20px 60px;
-      position: relative; overflow: hidden;
-    }
-    .hero-glow {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px; height: 600px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-badge {
-      display: inline-block; padding: 6px 18px; border-radius: 20px;
-      background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.2);
-      color: var(--orange); font-size: 13px; margin-bottom: 24px; font-weight: 600;
-    }
-    .hero h1 {
-      font-size: clamp(32px, 5vw, 56px); font-weight: 900;
-      margin-bottom: 20px; line-height: 1.3;
-    }
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--orange), #fbbf24);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero p { font-size: 18px; color: var(--text-muted); max-width: 520px; margin: 0 auto 36px; line-height: 1.8; }
-    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      padding: 16px 36px; border-radius: 12px; border: none;
-      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-      color: #fff; font-size: 17px; font-weight: 800;
-      box-shadow: 0 8px 30px rgba(249,115,22,0.4); transition: transform .2s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); }
-    .btn-secondary {
-      padding: 16px 36px; border-radius: 12px;
-      background: rgba(255,255,255,0.06); color: #fff;
-      border: 1px solid rgba(255,255,255,0.12);
-      font-size: 17px; font-weight: 700; transition: all .2s;
-    }
-    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+function formatMaintenanceMessage(data) {
+  return `🚨 *طلب صيانة جديد* 🚨
+━━━━━━━━━━━━━━━━━━
+👤 *العميل:* ${data.name}
+📞 *الهاتف:* ${data.phone}
+📍 *العنوان:* ${data.address}، ${data.city}
+━━━━━━━━━━━━━━━━━━
+🛠️ *الجهاز:* ${data.deviceType} - ${data.brand}
+💼 *نوع الخدمة:* ${data.serviceType}
+📝 *المشكلة/التفاصيل:* ${data.problem || data.customProblem}
+━━━━━━━━━━━━━━━━━━
+⏰ *وقت الطلب:* ${new Date().toLocaleString("ar-EG")}`;
+}
 
-    /* ── STATS ── */
-    .stats-grid {
-      max-width: 900px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px; padding: 0 20px 60px;
-    }
-    .stat-card {
-      text-align: center; padding: 24px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px;
-    }
-    .stat-num { font-size: 28px; font-weight: 900; color: var(--orange); }
-    .stat-label { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+function formatPartsMessage(cart) {
+  const items = cart.map(i => `• ${i.name} × ${i.qty} = ${(i.price * i.qty).toLocaleString()} ج.م`).join("\n");
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  return `🛒 *طلب قطع غيار* 🛒
+━━━━━━━━━━━━━━━━━━
+${items}
+━━━━━━━━━━━━━━━━━━
+💰 *الإجمالي:* ${total.toLocaleString()} ج.م
+━━━━━━━━━━━━━━━━━━
+⏰ *وقت الطلب:* ${new Date().toLocaleString("ar-EG")}`;
+}
 
-    /* ── SERVICES ── */
-    .services-section { padding: 0 20px 80px; }
-    .services-section h2 { text-align: center; font-size: 30px; font-weight: 800; margin-bottom: 40px; }
-    .services-grid {
-      max-width: 1000px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-    .service-card {
-      padding: 28px 24px; border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      transition: transform .2s, border-color .2s;
-    }
-    .service-card:hover { transform: translateY(-6px); }
-    .service-icon {
-      width: 56px; height: 56px; border-radius: 14px; font-size: 26px;
-      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
-    }
-    .service-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-    .service-card p { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+function formatTradeInMessage(data) {
+  return `🔄 *طلب ${data.requestType === "sell" ? "بيع جهاز" : "تجديد جهاز"}* 🔄
+━━━━━━━━━━━━━━━━━━
+👤 *العميل:* ${data.name}
+📞 *الهاتف:* ${data.phone}
+📍 *المنطقة:* ${data.city}
+━━━━━━━━━━━━━━━━━━
+📦 *نوع الجهاز:* ${data.deviceType}
+🏷️ *الماركة:* ${data.brand}
+📅 *العمر التقريبي:* ${data.age}
+📊 *الحالة:* ${data.condition}
+📝 *تفاصيل إضافية:* ${data.notes || "لا يوجد"}
+━━━━━━━━━━━━━━━━━━
+⏰ *وقت الطلب:* ${new Date().toLocaleString("ar-EG")}`;
+}
 
-    /* ── CTA BANNER ── */
-    .cta-banner {
-      max-width: 800px; margin: 0 auto;
-      background: linear-gradient(135deg, rgba(249,115,22,0.12), rgba(234,88,12,0.06));
-      border: 1px solid rgba(249,115,22,0.2); border-radius: 24px;
-      padding: 48px 40px; text-align: center; margin-bottom: 80px;
-    }
-    .cta-banner h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
-    .cta-banner p { color: var(--text-muted); margin-bottom: 28px; font-size: 16px; }
-    .btn-whatsapp {
-      display: inline-block; padding: 16px 48px; border-radius: 12px; border: none;
-      background: linear-gradient(135deg, var(--green), var(--green-dark));
-      color: #fff; font-size: 17px; font-weight: 800;
-      box-shadow: 0 8px 30px rgba(37,211,102,0.3); transition: transform .2s;
-    }
-    .btn-whatsapp:hover { transform: translateY(-2px); }
+// ============================================================
+// DATABASE SCHEMA (موضحة كـ comments للمطور)
+// ============================================================
+/*
+MAINTENANCE_REQUESTS {
+  id: UUID PK
+  client_name: VARCHAR(100)
+  client_phone: VARCHAR(20)
+  client_address: TEXT
+  city: VARCHAR(50)
+  device_type: ENUM('بوتجاز','سخان غاز')
+  brand: VARCHAR(50)
+  service_type: ENUM('صيانة','توصيل جديد','تجديد')
+  problem: TEXT
+  status: ENUM('pending','confirmed','in_progress','done') DEFAULT 'pending'
+  created_at: TIMESTAMP DEFAULT NOW()
+}
 
-    /* ── FORM WRAPPER ── */
-    .form-wrap {
-      max-width: 560px; margin: 0 auto; padding: 40px 20px;
-    }
-    .form-wrap h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; text-align: center; }
-    .form-wrap > p { color: var(--text-muted); text-align: center; margin-bottom: 32px; }
-    .form-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-radius: 20px; padding: 28px 24px;
-    }
+PARTS_ORDERS {
+  id: UUID PK
+  items: JSONB  -- [{part_id, name, qty, price}]
+  total: DECIMAL(10,2)
+  created_at: TIMESTAMP
+}
 
-    /* ── PROGRESS BAR ── */
-    .progress-steps { display: flex; justify-content: space-between; margin-bottom: 8px; }
-    .step-dot {
-      width: 36px; height: 36px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 14px; transition: all .3s;
-      border: 2px solid transparent;
-    }
-    .step-dot.done { background: linear-gradient(135deg, var(--orange), var(--orange-dark)); color: #fff; }
-    .step-dot.current { background: #fff; color: var(--orange); border-color: var(--orange); box-shadow: 0 0 0 4px rgba(249,115,22,0.2); }
-    .step-dot.pending { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); }
-    .progress-bar-bg { height: 4px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; margin-bottom: 28px; }
-    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--orange), var(--orange-dark)); border-radius: 99px; transition: width .4s cubic-bezier(.4,0,.2,1); }
+TRADE_IN_REQUESTS {
+  id: UUID PK
+  client_name: VARCHAR(100)
+  client_phone: VARCHAR(20)
+  city: VARCHAR(50)
+  device_type: VARCHAR(50)
+  brand: VARCHAR(50)
+  age: VARCHAR(20)
+  condition: ENUM('ممتاز','جيد','متوسط','سيئ')
+  request_type: ENUM('sell','renew')
+  notes: TEXT
+  images: JSONB  -- [url1, url2...]
+  created_at: TIMESTAMP
+}
 
-    /* ── STEP CONTENT ── */
-    .step-content { display: none; }
-    .step-content.active { display: block; }
-    .step-title { color: #fff; margin-bottom: 20px; text-align: center; font-size: 18px; font-weight: 700; }
+PARTS_CATALOG {
+  id: UUID PK
+  name: VARCHAR(100)
+  category: VARCHAR(50)
+  brand: VARCHAR(50)
+  price: DECIMAL(10,2)
+  stock: INT
+  image_url: TEXT
+  description: TEXT
+}
+*/
 
-    /* ── CHOICE CARDS ── */
-    .choice-row { display: flex; gap: 12px; }
-    .choice-card {
-      flex: 1; min-width: 120px; padding: 20px 16px; border-radius: 14px;
-      background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.6); display: flex; flex-direction: column;
-      align-items: center; gap: 10px; transition: all .25s;
-    }
-    .choice-card:hover { border-color: rgba(249,115,22,0.4); }
-    .choice-card.selected {
-      background: linear-gradient(135deg, rgba(249,115,22,.25), rgba(234,88,12,.15));
-      border-color: var(--orange); color: var(--orange);
-      box-shadow: 0 0 20px rgba(249,115,22,0.15); transform: translateY(-2px);
-    }
-    .choice-card .ci { font-size: 36px; }
-    .choice-card .cl { font-size: 14px; font-weight: 600; }
+// ============================================================
+// DATA
+// ============================================================
+const BRANDS = {
+  "بوتجاز": ["كريازي","شارب","تيكا","كونكورد","أمريكانا","زانوسي","آرديم","هاير","يونيون إير","أخرى"],
+  "سخان غاز": ["جوناي","إيتال","كريازي","فريش","تيرما","هاميلتون","كليما","أخرى"],
+};
 
-    /* ── SERVICE OPTION BUTTONS ── */
-    .service-option {
-      width: 100%; padding: 14px 18px; border-radius: 12px; margin-bottom: 10px;
-      background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08);
-      color: #fff; display: flex; align-items: center; gap: 14px;
-      text-align: right; transition: all .2s;
-    }
-    .service-option:hover { border-color: rgba(249,115,22,0.3); }
-    .service-option.selected { background: rgba(249,115,22,.2); border-color: var(--orange); }
-    .service-option .si { font-size: 28px; }
-    .service-option .sname { font-weight: 700; font-size: 15px; }
-    .service-option .sdesc { color: var(--text-muted); font-size: 12px; margin-top: 3px; }
+const PROBLEMS = {
+  "بوتجاز": ["اشتعال الشعلات","خلل في الفرن","تسريب غاز","مؤقت لا يعمل","صدأ / تلف هيكل","أخرى"],
+  "سخان غاز": ["لا يشتعل","ضعف اللهب","تسريب ماء","تسريب غاز","صوت غير طبيعي","أخرى"],
+};
 
-    /* ── PROBLEM CHIPS ── */
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
-    .chip {
-      padding: 8px 14px; border-radius: 20px; font-size: 13px;
-      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.7); transition: all .2s; cursor: pointer;
-    }
-    .chip:hover { border-color: rgba(249,115,22,0.4); }
-    .chip.selected { background: rgba(249,115,22,.25); border-color: var(--orange); color: var(--orange); }
+const PARTS_DATA = [
+  { id: 1, name: "شعلة بوتجاز يونيفرسال", category: "بوتجاز", brand: "يونيفرسال", price: 85, image: "🔥", desc: "تناسب معظم ماركات البوتجازات" },
+  { id: 2, name: "ترموستات سخان غاز", category: "سخان غاز", brand: "جوناي", price: 220, image: "🌡️", desc: "أصلي من المصنع" },
+  { id: 3, name: "حرق بوتجاز كريازي", category: "بوتجاز", brand: "كريازي", price: 150, image: "⚙️", desc: "قطعة أصلية معتمدة" },
+  { id: 4, name: "صمام أمان سخان غاز", category: "سخان غاز", brand: "يونيفرسال", price: 180, image: "🔧", desc: "يناسب جميع الأحجام" },
+  { id: 5, name: "زجاج فرن بوتجاز", category: "بوتجاز", brand: "شارب", price: 320, image: "🪟", desc: "زجاج مقسّى عالي الحرارة" },
+  { id: 6, name: "موقد غاز كامل", category: "بوتجاز", brand: "يونيفرسال", price: 95, image: "🔩", desc: "يونيفرسال يناسب كل الماركات" },
+];
 
-    /* ── FORM FIELDS ── */
-    .field { margin-bottom: 16px; }
-    .field label { display: block; color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 6px; }
-    .field label .req { color: var(--orange); }
-    .field input, .field select, .field textarea {
-      width: 100%; padding: 12px 16px; border-radius: 10px;
-      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12);
-      color: #fff; font-size: 15px; outline: none; transition: border .2s;
-    }
-    .field select { background: #1a1a2e; cursor: pointer; }
-    .field textarea { resize: none; }
-    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--orange); }
-    .field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,0.3); }
+const CITIES = ["القاهرة","الجيزة","الإسكندرية","الشرقية","الدقهلية","البحيرة","المنوفية","القليوبية","الفيوم","بني سويف","المنيا","أسيوط","سوهاج","قنا","الأقصر","أسوان","البحر الأحمر","سيناء","مطروح","دمياط","كفر الشيخ","الإسماعيلية","السويس","بورسعيد"];
 
-    /* ── NAV BUTTONS ── */
-    .nav-row { display: flex; gap: 10px; margin-top: 28px; }
-    .btn-back {
-      flex: 1; padding: 14px; border-radius: 10px;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
-      color: #fff; font-size: 15px;
-    }
-    .btn-next {
-      flex: 2; padding: 14px; border-radius: 10px; border: none;
-      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-      color: #fff; font-size: 15px; font-weight: 700; transition: all .2s;
-    }
-    .btn-next:disabled { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.3); cursor: not-allowed; }
-    .btn-send {
-      flex: 2; padding: 14px; border-radius: 10px; border: none;
-      background: linear-gradient(135deg, var(--green), var(--green-dark));
-      color: #fff; font-size: 15px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-    }
-    .btn-send:disabled { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.3); cursor: not-allowed; }
+// ============================================================
+// COMPONENTS
+// ============================================================
 
-    /* ── SUCCESS STATE ── */
-    .success-state { text-align: center; padding: 40px 20px; }
-    .success-state .si { font-size: 64px; margin-bottom: 16px; }
-    .success-state h3 { color: #4ade80; margin-bottom: 8px; font-size: 22px; }
-    .success-state p { color: var(--text-muted); margin-bottom: 24px; }
-
-    /* ── PARTS STORE ── */
-    .parts-wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-    .parts-wrap h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; text-align: center; }
-    .parts-wrap > p { color: var(--text-muted); text-align: center; margin-bottom: 32px; }
-    .filter-row { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
-    .filter-btn {
-      padding: 8px 18px; border-radius: 20px; font-size: 13px;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.6); transition: all .2s;
-    }
-    .filter-btn.active, .filter-btn:hover {
-      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-      color: #fff; border-color: transparent;
-    }
-    .cart-btn {
-      margin-right: auto; padding: 8px 18px; border-radius: 20px;
-      background: rgba(37,211,102,0.15); border: 1px solid var(--green);
-      color: var(--green); font-size: 13px;
-    }
-    .cart-panel {
-      background: rgba(37,211,102,0.06); border: 1px solid rgba(37,211,102,0.2);
-      border-radius: 14px; padding: 20px; margin-bottom: 20px; display: none;
-    }
-    .cart-panel.open { display: block; }
-    .cart-panel h4 { color: var(--green); margin-bottom: 14px; }
-    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .cart-item span:first-child { color: #fff; font-size: 14px; }
-    .cart-item span:last-child { color: var(--orange); }
-    .cart-total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; display: flex; justify-content: space-between; margin-bottom: 16px; }
-    .cart-total span:first-child { color: rgba(255,255,255,0.7); }
-    .cart-total span:last-child { color: var(--orange); font-weight: 700; font-size: 18px; }
-    .parts-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 14px;
-    }
-    .part-card {
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden; transition: transform .2s;
-    }
-    .part-card:hover { transform: translateY(-4px); }
-    .part-emoji { background: rgba(249,115,22,0.1); padding: 20px; text-align: center; font-size: 42px; }
-    .part-info { padding: 12px; }
-    .part-name { color: #fff; font-weight: 600; font-size: 13px; margin-bottom: 4px; line-height: 1.4; }
-    .part-desc { color: rgba(255,255,255,0.4); font-size: 11px; margin-bottom: 10px; }
-    .part-price { color: var(--orange); font-weight: 700; font-size: 16px; margin-bottom: 10px; }
-    .btn-add-cart {
-      width: 100%; padding: 8px; border-radius: 8px;
-      background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.3);
-      color: var(--orange); font-size: 12px; font-weight: 600; transition: all .2s;
-    }
-    .btn-add-cart.in-cart { background: rgba(249,115,22,.25); }
-    .btn-add-cart:hover { background: rgba(249,115,22,.3); }
-
-    /* ── TRADE-IN ── */
-    .hint-box {
-      background: rgba(249,115,22,0.06); border: 1px solid rgba(249,115,22,0.15);
-      border-radius: 10px; padding: 12px; margin: 16px 0;
-      font-size: 13px; color: var(--text-muted);
-    }
-    .divider { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; margin-top: 8px; }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 32px 20px; text-align: center;
-      color: var(--text-dim); font-size: 13px;
-    }
-    footer div { margin-bottom: 6px; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .cta-banner { padding: 32px 20px; }
-      .choice-row { flex-direction: column; }
-    }
-  </style>
-</head>
-<body>
-
-<nav id="navbar">
-  <div class="nav-inner">
-    <div class="logo" onclick="showSection('home')">
-      <div class="logo-icon">🔥</div>
-      <div>
-        <div class="logo-text">تك فيكس</div>
-        <div class="logo-sub">صيانة وقطع غيار</div>
+function ProgressBar({ step, total }) {
+  return (
+    <div style={{ marginBottom: 28 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+        {Array.from({ length: total }, (_, i) => (
+          <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
+            <div style={{
+              width: 36, height: 36, borderRadius: "50%",
+              background: i < step ? "linear-gradient(135deg,#f97316,#ea580c)" : i === step ? "#fff" : "rgba(255,255,255,0.1)",
+              border: i === step ? "2px solid #f97316" : "2px solid transparent",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: i < step ? "#fff" : i === step ? "#f97316" : "rgba(255,255,255,0.3)",
+              fontWeight: 700, fontSize: 14, transition: "all .3s",
+              boxShadow: i === step ? "0 0 0 4px rgba(249,115,22,0.2)" : "none",
+            }}>
+              {i < step ? "✓" : i + 1}
+            </div>
+            {i < total - 1 && (
+              <div style={{
+                position: "absolute", height: 2, background: i < step ? "#f97316" : "rgba(255,255,255,0.1)",
+                transition: "background .3s",
+              }} />
+            )}
+          </div>
+        ))}
+      </div>
+      <div style={{ height: 4, background: "rgba(255,255,255,0.08)", borderRadius: 99, overflow: "hidden" }}>
+        <div style={{
+          height: "100%", borderRadius: 99,
+          background: "linear-gradient(90deg,#f97316,#ea580c)",
+          width: `${(step / (total - 1)) * 100}%`,
+          transition: "width .4s cubic-bezier(.4,0,.2,1)",
+        }} />
       </div>
     </div>
-    <div class="nav-links">
-      <button class="nav-btn active" onclick="showSection('home')"      id="nav-home">الرئيسية</button>
-      <button class="nav-btn"        onclick="showSection('maintenance')" id="nav-maintenance">حجز صيانة</button>
-      <button class="nav-btn"        onclick="showSection('parts')"      id="nav-parts">قطع الغيار</button>
-      <button class="nav-btn"        onclick="showSection('tradein')"    id="nav-tradein">بيع وتجديد</button>
+  );
+}
+
+function Input({ label, type = "text", value, onChange, placeholder, required }) {
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 6, fontFamily: "inherit" }}>
+        {label} {required && <span style={{ color: "#f97316" }}>*</span>}
+      </label>
+      <input
+        type={type}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        required={required}
+        style={{
+          width: "100%", padding: "12px 16px", borderRadius: 10,
+          background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.12)",
+          color: "#fff", fontSize: 15, fontFamily: "inherit", outline: "none",
+          transition: "border .2s",
+          boxSizing: "border-box",
+        }}
+        onFocus={e => e.target.style.borderColor = "#f97316"}
+        onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.12)"}
+      />
     </div>
-    <button class="nav-cta" onclick="showSection('maintenance')">🔧 طلب صيانة</button>
-  </div>
-</nav>
+  );
+}
 
-<section id="section-home" class="section active">
-  <div class="hero">
-    <div class="hero-glow"></div>
-    <div class="hero-badge">⚡ خدمة صيانة منزلية سريعة وموثوقة</div>
-    <h1>خبراء صيانة<br /><span>البوتجازات والسخانات</span></h1>
-    <p>نوفر صيانة احترافية في منزلك، بيع قطع غيار أصلية، وشراء أجهزتك القديمة بأفضل الأسعار</p>
-    <div class="hero-btns">
-      <button class="btn-primary" onclick="showSection('maintenance')">🔧 اطلب صيانة الآن</button>
-      <button class="btn-secondary" onclick="showSection('parts')">🛒 تصفح قطع الغيار</button>
+function Select({ label, value, onChange, options, placeholder }) {
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 6 }}>
+        {label} <span style={{ color: "#f97316" }}>*</span>
+      </label>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        style={{
+          width: "100%", padding: "12px 16px", borderRadius: 10,
+          background: "#1a1a2e", border: "1.5px solid rgba(255,255,255,0.12)",
+          color: value ? "#fff" : "rgba(255,255,255,0.35)", fontSize: 15,
+          fontFamily: "inherit", outline: "none", cursor: "pointer",
+          boxSizing: "border-box",
+        }}
+      >
+        <option value="" disabled>{placeholder || "اختر..."}</option>
+        {options.map(o => <option key={o} value={o} style={{ color: "#fff", background: "#1a1a2e" }}>{o}</option>)}
+      </select>
     </div>
-  </div>
+  );
+}
 
-  <div class="stats-grid">
-    <div class="stat-card"><div class="stat-num">+5000</div><div class="stat-label">عميل سعيد</div></div>
-    <div class="stat-card"><div class="stat-num">+10 سنوات</div><div class="stat-label">خبرة في المجال</div></div>
-    <div class="stat-card"><div class="stat-num">24/7</div><div class="stat-label">خدمة العملاء</div></div>
-    <div class="stat-card"><div class="stat-num">+500</div><div class="stat-label">قطعة غيار متاحة</div></div>
-  </div>
+function ChoiceCard({ label, icon, selected, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        flex: 1, minWidth: 120, padding: "20px 16px", borderRadius: 14, cursor: "pointer",
+        background: selected ? "linear-gradient(135deg,rgba(249,115,22,.25),rgba(234,88,12,.15))" : "rgba(255,255,255,0.04)",
+        border: selected ? "2px solid #f97316" : "2px solid rgba(255,255,255,0.08)",
+        color: selected ? "#f97316" : "rgba(255,255,255,0.6)",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
+        transition: "all .25s", fontFamily: "inherit",
+        boxShadow: selected ? "0 0 20px rgba(249,115,22,0.15)" : "none",
+        transform: selected ? "translateY(-2px)" : "none",
+      }}
+    >
+      <span style={{ fontSize: 36 }}>{icon}</span>
+      <span style={{ fontSize: 14, fontWeight: 600 }}>{label}</span>
+    </button>
+  );
+}
 
-  <div class="services-section">
-    <h2>خدماتنا المتكاملة</h2>
-    <div class="services-grid">
-      <div class="service-card" style="--c:#f97316" onmouseenter="this.style.borderColor='#f9731640'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.07)'">
-        <div class="service-icon" style="background:rgba(249,115,22,0.15)">🔧</div>
-        <h3 style="color:#f97316">صيانة منزلية</h3>
-        <p>نصلك أينما كنت لإصلاح جهازك بأسرع وقت وأفضل أسعار.</p>
+// ============================================================
+// MAINTENANCE FORM (Multi-step)
+// ============================================================
+function MaintenanceForm({ onClose }) {
+  const [step, setStep] = useState(0);
+  const [form, setForm] = useState({
+    deviceType: "", serviceType: "", brand: "", problem: "", customProblem: "",
+    name: "", phone: "", address: "", city: "",
+  });
+  const [sent, setSent] = useState(false);
+
+  const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
+
+  const canNext = () => {
+    if (step === 0) return form.deviceType;
+    if (step === 1) return form.serviceType;
+    if (step === 2) return form.brand && (form.problem || form.customProblem);
+    if (step === 3) return form.name && form.phone && form.address && form.city;
+    return true;
+  };
+
+  const handleSend = () => {
+    const msg = formatMaintenanceMessage(form);
+    window.open(buildWhatsAppURL(msg), "_blank");
+    setSent(true);
+  };
+
+  if (sent) return (
+    <div style={{ textAlign: "center", padding: "40px 20px" }}>
+      <div style={{ fontSize: 64, marginBottom: 16 }}>✅</div>
+      <h3 style={{ color: "#4ade80", marginBottom: 8, fontSize: 22 }}>تم إرسال طلبك!</h3>
+      <p style={{ color: "rgba(255,255,255,0.6)", marginBottom: 24 }}>سيتواصل معك الفني في أقرب وقت ممكن.</p>
+      <button onClick={onClose} style={{ padding: "12px 32px", borderRadius: 10, background: "linear-gradient(135deg,#f97316,#ea580c)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontFamily: "inherit" }}>
+        إغلاق
+      </button>
+    </div>
+  );
+
+  return (
+    <div>
+      <ProgressBar step={step} total={4} />
+
+      {step === 0 && (
+        <div>
+          <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>ما هو الجهاز؟</h3>
+          <div style={{ display: "flex", gap: 12 }}>
+            <ChoiceCard label="بوتجاز" icon="🍳" selected={form.deviceType === "بوتجاز"} onClick={() => set("deviceType", "بوتجاز")} />
+            <ChoiceCard label="سخان غاز" icon="🚿" selected={form.deviceType === "سخان غاز"} onClick={() => set("deviceType", "سخان غاز")} />
+          </div>
+        </div>
+      )}
+
+      {step === 1 && (
+        <div>
+          <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>نوع الخدمة المطلوبة</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {[
+              { val: "صيانة جهاز حالي", icon: "🔧", desc: "إصلاح مشكلة في جهازك" },
+              { val: "توصيل وتثبيت جهاز جديد", icon: "📦", desc: "تركيب جهاز اشتريته" },
+              { val: "تجديد شامل لجهاز قديم", icon: "✨", desc: "صيانة كاملة وتجديد مظهر" },
+            ].map(({ val, icon, desc }) => (
+              <button key={val} onClick={() => set("serviceType", val)} style={{
+                padding: "14px 18px", borderRadius: 12, cursor: "pointer",
+                background: form.serviceType === val ? "rgba(249,115,22,.2)" : "rgba(255,255,255,0.04)",
+                border: `2px solid ${form.serviceType === val ? "#f97316" : "rgba(255,255,255,0.08)"}`,
+                color: "#fff", display: "flex", alignItems: "center", gap: 14,
+                fontFamily: "inherit", textAlign: "right", transition: "all .2s",
+              }}>
+                <span style={{ fontSize: 28 }}>{icon}</span>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 15 }}>{val}</div>
+                  <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: 3 }}>{desc}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div>
+          <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>تفاصيل الجهاز</h3>
+          <Select label="الماركة" value={form.brand} onChange={v => set("brand", v)}
+            options={BRANDS[form.deviceType] || []} placeholder="اختر الماركة" />
+          <div style={{ marginBottom: 8 }}>
+            <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 8 }}>
+              المشكلة <span style={{ color: "#f97316" }}>*</span>
+            </label>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {(PROBLEMS[form.deviceType] || []).map(p => (
+                <button key={p} onClick={() => { set("problem", p); set("customProblem", ""); }}
+                  style={{
+                    padding: "8px 14px", borderRadius: 20, cursor: "pointer", fontSize: 13,
+                    background: form.problem === p ? "rgba(249,115,22,.25)" : "rgba(255,255,255,0.06)",
+                    border: `1.5px solid ${form.problem === p ? "#f97316" : "rgba(255,255,255,0.1)"}`,
+                    color: form.problem === p ? "#f97316" : "rgba(255,255,255,0.7)",
+                    fontFamily: "inherit", transition: "all .2s",
+                  }}>
+                  {p}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div style={{ marginTop: 12 }}>
+            <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 6 }}>
+              أو اكتب وصف مخصص
+            </label>
+            <textarea value={form.customProblem}
+              onChange={e => { set("customProblem", e.target.value); set("problem", ""); }}
+              placeholder="اشرح المشكلة بتفصيل..."
+              rows={3}
+              style={{
+                width: "100%", padding: "12px 16px", borderRadius: 10,
+                background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.12)",
+                color: "#fff", fontSize: 14, fontFamily: "inherit", resize: "none", outline: "none",
+                boxSizing: "border-box",
+              }}
+              onFocus={e => e.target.style.borderColor = "#f97316"}
+              onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.12)"}
+            />
+          </div>
+        </div>
+      )}
+
+      {step === 3 && (
+        <div>
+          <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>بياناتك الشخصية</h3>
+          <Input label="الاسم" value={form.name} onChange={v => set("name", v)} placeholder="اسمك الكامل" required />
+          <Input label="رقم الهاتف" type="tel" value={form.phone} onChange={v => set("phone", v)} placeholder="01xxxxxxxxx" required />
+          <Input label="العنوان التفصيلي" value={form.address} onChange={v => set("address", v)} placeholder="الشارع، العمارة، الدور، الشقة" required />
+          <Select label="المحافظة" value={form.city} onChange={v => set("city", v)} options={CITIES} placeholder="اختر المحافظة" />
+        </div>
+      )}
+
+      {/* Navigation */}
+      <div style={{ display: "flex", gap: 10, marginTop: 28 }}>
+        {step > 0 && (
+          <button onClick={() => setStep(s => s - 1)} style={{
+            flex: 1, padding: "14px", borderRadius: 10, cursor: "pointer",
+            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
+            color: "#fff", fontSize: 15, fontFamily: "inherit",
+          }}>
+            ← السابق
+          </button>
+        )}
+        {step < 3 ? (
+          <button onClick={() => canNext() && setStep(s => s + 1)} style={{
+            flex: 2, padding: "14px", borderRadius: 10, cursor: canNext() ? "pointer" : "not-allowed",
+            background: canNext() ? "linear-gradient(135deg,#f97316,#ea580c)" : "rgba(255,255,255,0.08)",
+            color: canNext() ? "#fff" : "rgba(255,255,255,0.3)", border: "none",
+            fontSize: 15, fontWeight: 700, fontFamily: "inherit", transition: "all .2s",
+          }}>
+            التالي ←
+          </button>
+        ) : (
+          <button onClick={handleSend} disabled={!canNext()} style={{
+            flex: 2, padding: "14px", borderRadius: 10, cursor: "pointer",
+            background: "linear-gradient(135deg,#25d366,#128c7e)",
+            color: "#fff", border: "none", fontSize: 15, fontWeight: 700, fontFamily: "inherit",
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+          }}>
+            <span>📲</span> إرسال عبر واتس آب
+          </button>
+        )}
       </div>
-      <div class="service-card" onmouseenter="this.style.borderColor='#3b82f640'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.07)'">
-        <div class="service-icon" style="background:rgba(59,130,246,0.15)">🛒</div>
-        <h3 style="color:#3b82f6">قطع غيار أصلية</h3>
-        <p>مجموعات واسعة من قطع الغيار المعتمدة مع ضمان حقيقي.</p>
+    </div>
+  );
+}
+
+// ============================================================
+// PARTS STORE
+// ============================================================
+function PartsStore() {
+  const [cart, setCart] = useState([]);
+  const [filter, setFilter] = useState("الكل");
+  const [showCart, setShowCart] = useState(false);
+
+  const filtered = filter === "الكل" ? PARTS_DATA : PARTS_DATA.filter(p => p.category === filter);
+  const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+
+  const addToCart = (part) => {
+    setCart(c => {
+      const ex = c.find(i => i.id === part.id);
+      if (ex) return c.map(i => i.id === part.id ? { ...i, qty: i.qty + 1 } : i);
+      return [...c, { ...part, qty: 1 }];
+    });
+  };
+
+  const sendCartToWhatsApp = () => {
+    if (!cart.length) return;
+    window.open(buildWhatsAppURL(formatPartsMessage(cart)), "_blank");
+  };
+
+  return (
+    <div>
+      {/* Filter tabs */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+        {["الكل", "بوتجاز", "سخان غاز"].map(f => (
+          <button key={f} onClick={() => setFilter(f)} style={{
+            padding: "8px 18px", borderRadius: 20, cursor: "pointer", fontSize: 13,
+            background: filter === f ? "linear-gradient(135deg,#f97316,#ea580c)" : "rgba(255,255,255,0.06)",
+            color: filter === f ? "#fff" : "rgba(255,255,255,0.6)",
+            border: "1px solid " + (filter === f ? "transparent" : "rgba(255,255,255,0.1)"),
+            fontFamily: "inherit",
+          }}>{f}</button>
+        ))}
+        {totalQty > 0 && (
+          <button onClick={() => setShowCart(!showCart)} style={{
+            marginRight: "auto", padding: "8px 18px", borderRadius: 20, cursor: "pointer",
+            background: "rgba(37,211,102,0.15)", border: "1px solid #25d366",
+            color: "#25d366", fontSize: 13, fontFamily: "inherit",
+          }}>
+            🛒 السلة ({totalQty})
+          </button>
+        )}
       </div>
-      <div class="service-card" onmouseenter="this.style.borderColor='#10b98140'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.07)'">
-        <di
+
+      {/* Cart Panel */}
+      {showCart && cart.length > 0 && (
+        <div style={{
+          background: "rgba(37,211,102,0.06)", border: "1px solid rgba(37,211,102,0.2)",
+          borderRadius: 14, padding: 20, marginBottom: 20,
+        }}>
+          <h4 style={{ color: "#25d366", marginBottom: 14 }}>🛒 سلة الشراء</h4>
+          {cart.map(item => (
+            <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginB    
