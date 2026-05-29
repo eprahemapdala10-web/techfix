@@ -1,263 +1,421 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Fix | مركز صيانة البوتجازات وسخانات الغاز</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
-        html { scroll-behavior: smooth; font-family: 'Cairo', sans-serif; }
-        body { font-family: 'Cairo', sans-serif; background-color: #0d0d1e; }
-        /* إخفاء شريط التمرير الافتراضي للمتصفح لجمال التصميم */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0d0d1e; }
-        ::-webkit-scrollbar-thumb { background: #f97316; border-radius: 4px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تك فيكس | صيانة بوتجازات وسخانات غاز – قطع غيار أصلية</title>
+  <meta name="description" content="خدمة صيانة بوتجازات وسخانات غاز منزلية بأسعار مناسبة وضمان على الإصلاح. قطع غيار أصلية، فنيين معتمدون. اتصل الآن!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #f97316;
+      --orange-dark: #ea580c;
+      --green: #25d366;
+      --green-dark: #128c7e;
+      --bg: #0f0f1a;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #ffffff;
+      --text-muted: rgba(255,255,255,0.5);
+      --text-dim: rgba(255,255,255,0.3);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Cairo', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(249,115,22,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(59,130,246,0.05) 0%, transparent 60%);
+    }
+    button { font-family: 'Cairo', sans-serif; cursor: pointer; }
+    input, select, textarea { font-family: 'Cairo', sans-serif; }
+    a { text-decoration: none; }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(15,15,26,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; height: 64px; gap: 16px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .logo-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+    }
+    .logo-text { font-weight: 800; font-size: 15px; line-height: 1; }
+    .logo-sub { font-size: 10px; color: var(--text-dim); line-height: 1.4; }
+    .nav-links { display: flex; gap: 4px; margin-right: auto; }
+    .nav-btn {
+      padding: 8px 14px; border-radius: 8px; border: none;
+      background: transparent; color: var(--text-muted);
+      font-size: 13px; font-weight: 600; transition: all .2s;
+    }
+    .nav-btn.active, .nav-btn:hover { background: rgba(249,115,22,0.15); color: var(--orange); }
+    .nav-cta {
+      padding: 10px 18px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      color: #fff; font-size: 13px; font-weight: 700;
+      box-shadow: 0 4px 20px rgba(249,115,22,0.3);
+      white-space: nowrap; transition: transform .2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); }
+
+    /* ── SECTIONS ── */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center; padding: 80px 20px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block; padding: 6px 18px; border-radius: 20px;
+      background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.2);
+      color: var(--orange); font-size: 13px; margin-bottom: 24px; font-weight: 600;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 56px); font-weight: 900;
+      margin-bottom: 20px; line-height: 1.3;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--orange), #fbbf24);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p { font-size: 18px; color: var(--text-muted); max-width: 520px; margin: 0 auto 36px; line-height: 1.8; }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 16px 36px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      color: #fff; font-size: 17px; font-weight: 800;
+      box-shadow: 0 8px 30px rgba(249,115,22,0.4); transition: transform .2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-secondary {
+      padding: 16px 36px; border-radius: 12px;
+      background: rgba(255,255,255,0.06); color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 17px; font-weight: 700; transition: all .2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── STATS ── */
+    .stats-grid {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px; padding: 0 20px 60px;
+    }
+    .stat-card {
+      text-align: center; padding: 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+    }
+    .stat-num { font-size: 28px; font-weight: 900; color: var(--orange); }
+    .stat-label { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+
+    /* ── SERVICES ── */
+    .services-section { padding: 0 20px 80px; }
+    .services-section h2 { text-align: center; font-size: 30px; font-weight: 800; margin-bottom: 40px; }
+    .services-grid {
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .service-card {
+      padding: 28px 24px; border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: transform .2s, border-color .2s;
+    }
+    .service-card:hover { transform: translateY(-6px); }
+    .service-icon {
+      width: 56px; height: 56px; border-radius: 14px; font-size: 26px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+    }
+    .service-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .service-card p { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      max-width: 800px; margin: 0 auto;
+      background: linear-gradient(135deg, rgba(249,115,22,0.12), rgba(234,88,12,0.06));
+      border: 1px solid rgba(249,115,22,0.2); border-radius: 24px;
+      padding: 48px 40px; text-align: center; margin-bottom: 80px;
+    }
+    .cta-banner h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+    .cta-banner p { color: var(--text-muted); margin-bottom: 28px; font-size: 16px; }
+    .btn-whatsapp {
+      display: inline-block; padding: 16px 48px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: #fff; font-size: 17px; font-weight: 800;
+      box-shadow: 0 8px 30px rgba(37,211,102,0.3); transition: transform .2s;
+    }
+    .btn-whatsapp:hover { transform: translateY(-2px); }
+
+    /* ── FORM WRAPPER ── */
+    .form-wrap {
+      max-width: 560px; margin: 0 auto; padding: 40px 20px;
+    }
+    .form-wrap h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; text-align: center; }
+    .form-wrap > p { color: var(--text-muted); text-align: center; margin-bottom: 32px; }
+    .form-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 24px;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-steps { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .step-dot {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; transition: all .3s;
+      border: 2px solid transparent;
+    }
+    .step-dot.done { background: linear-gradient(135deg, var(--orange), var(--orange-dark)); color: #fff; }
+    .step-dot.current { background: #fff; color: var(--orange); border-color: var(--orange); box-shadow: 0 0 0 4px rgba(249,115,22,0.2); }
+    .step-dot.pending { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); }
+    .progress-bar-bg { height: 4px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; margin-bottom: 28px; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--orange), var(--orange-dark)); border-radius: 99px; transition: width .4s cubic-bezier(.4,0,.2,1); }
+
+    /* ── STEP CONTENT ── */
+    .step-content { display: none; }
+    .step-content.active { display: block; }
+    .step-title { color: #fff; margin-bottom: 20px; text-align: center; font-size: 18px; font-weight: 700; }
+
+    /* ── CHOICE CARDS ── */
+    .choice-row { display: flex; gap: 12px; }
+    .choice-card {
+      flex: 1; min-width: 120px; padding: 20px 16px; border-radius: 14px;
+      background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.6); display: flex; flex-direction: column;
+      align-items: center; gap: 10; transition: all .25s;
+    }
+    .choice-card:hover { border-color: rgba(249,115,22,0.4); }
+    .choice-card.selected {
+      background: linear-gradient(135deg, rgba(249,115,22,.25), rgba(234,88,12,.15));
+      border-color: var(--orange); color: var(--orange);
+      box-shadow: 0 0 20px rgba(249,115,22,0.15); transform: translateY(-2px);
+    }
+    .choice-card .ci { font-size: 36px; }
+    .choice-card .cl { font-size: 14px; font-weight: 600; }
+
+    /* ── SERVICE OPTION BUTTONS ── */
+    .service-option {
+      width: 100%; padding: 14px 18px; border-radius: 12px; margin-bottom: 10px;
+      background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08);
+      color: #fff; display: flex; align-items: center; gap: 14;
+      text-align: right; transition: all .2s;
+    }
+    .service-option:hover { border-color: rgba(249,115,22,0.3); }
+    .service-option.selected { background: rgba(249,115,22,.2); border-color: var(--orange); }
+    .service-option .si { font-size: 28px; }
+    .service-option .sname { font-weight: 700; font-size: 15px; }
+    .service-option .sdesc { color: var(--text-muted); font-size: 12px; margin-top: 3px; }
+
+    /* ── PROBLEM CHIPS ── */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+    .chip {
+      padding: 8px 14px; border-radius: 20px; font-size: 13px;
+      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7); transition: all .2s;
+    }
+    .chip:hover { border-color: rgba(249,115,22,0.4); }
+    .chip.selected { background: rgba(249,115,22,.25); border-color: var(--orange); color: var(--orange); }
+
+    /* ── FORM FIELDS ── */
+    .field { margin-bottom: 16px; }
+    .field label { display: block; color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 6px; }
+    .field label .req { color: var(--orange); }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 12px 16px; border-radius: 10px;
+      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12);
+      color: #fff; font-size: 15px; outline: none; transition: border .2s;
+    }
+    .field select { background: #1a1a2e; cursor: pointer; }
+    .field textarea { resize: none; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--orange); }
+    .field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* ── NAV BUTTONS ── */
+    .nav-row { display: flex; gap: 10px; margin-top: 28px; }
+    .btn-back {
+      flex: 1; padding: 14px; border-radius: 10px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      color: #fff; font-size: 15px;
+    }
+    .btn-next {
+      flex: 2; padding: 14px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      color: #fff; font-size: 15px; font-weight: 700; transition: all .2s;
+    }
+    .btn-next:disabled { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.3); cursor: not-allowed; }
+    .btn-send {
+      flex: 2; padding: 14px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: #fff; font-size: 15px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-send:disabled { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.3); cursor: not-allowed; }
+
+    /* ── SUCCESS STATE ── */
+    .success-state { text-align: center; padding: 40px 20px; }
+    .success-state .si { font-size: 64px; margin-bottom: 16px; }
+    .success-state h3 { color: #4ade80; margin-bottom: 8px; font-size: 22px; }
+    .success-state p { color: var(--text-muted); margin-bottom: 24px; }
+
+    /* ── PARTS STORE ── */
+    .parts-wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    .parts-wrap h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; text-align: center; }
+    .parts-wrap > p { color: var(--text-muted); text-align: center; margin-bottom: 32px; }
+    .filter-row { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+    .filter-btn {
+      padding: 8px 18px; border-radius: 20px; font-size: 13px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6); transition: all .2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      color: #fff; border-color: transparent;
+    }
+    .cart-btn {
+      margin-right: auto; padding: 8px 18px; border-radius: 20px;
+      background: rgba(37,211,102,0.15); border: 1px solid var(--green);
+      color: var(--green); font-size: 13px;
+    }
+    .cart-panel {
+      background: rgba(37,211,102,0.06); border: 1px solid rgba(37,211,102,0.2);
+      border-radius: 14px; padding: 20px; margin-bottom: 20px; display: none;
+    }
+    .cart-panel.open { display: block; }
+    .cart-panel h4 { color: var(--green); margin-bottom: 14px; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .cart-item span:first-child { color: #fff; font-size: 14px; }
+    .cart-item span:last-child { color: var(--orange); }
+    .cart-total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; display: flex; justify-content: space-between; margin-bottom: 16px; }
+    .cart-total span:first-child { color: rgba(255,255,255,0.7); }
+    .cart-total span:last-child { color: var(--orange); font-weight: 700; font-size: 18px; }
+    .parts-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+    }
+    .part-card {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; transition: transform .2s;
+    }
+    .part-card:hover { transform: translateY(-4px); }
+    .part-emoji { background: rgba(249,115,22,0.1); padding: 20px; text-align: center; font-size: 42px; }
+    .part-info { padding: 12px; }
+    .part-name { color: #fff; font-weight: 600; font-size: 13px; margin-bottom: 4px; line-height: 1.4; }
+    .part-desc { color: rgba(255,255,255,0.4); font-size: 11px; margin-bottom: 10px; }
+    .part-price { color: var(--orange); font-weight: 700; font-size: 16px; margin-bottom: 10px; }
+    .btn-add-cart {
+      width: 100%; padding: 8px; border-radius: 8px;
+      background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.3);
+      color: var(--orange); font-size: 12px; font-weight: 600; transition: all .2s;
+    }
+    .btn-add-cart.in-cart { background: rgba(249,115,22,.25); }
+    .btn-add-cart:hover { background: rgba(249,115,22,.3); }
+
+    /* ── TRADE-IN ── */
+    .hint-box {
+      background: rgba(249,115,22,0.06); border: 1px solid rgba(249,115,22,0.15);
+      border-radius: 10px; padding: 12px; margin: 16px 0;
+      font-size: 13px; color: var(--text-muted);
+    }
+    .divider { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; margin-top: 8px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 20px; text-align: center;
+      color: var(--text-dim); font-size: 13px;
+    }
+    footer div { margin-bottom: 6px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .cta-banner { padding: 32px 20px; }
+      .choice-row { flex-direction: column; }
+    }
+  </style>
 </head>
-<body class="text-slate-100 min-h-screen selection:bg-orange-500 selection:text-slate-950">
+<body>
 
-    <div id="maintenance-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-[#16162a] border border-white/10 w-full max-w-xl rounded-3xl p-6 md:p-8 relative shadow-2xl">
-            <button onclick="toggleModal('maintenance-modal')" class="absolute top-4 left-4 text-slate-400 hover:text-white text-xl font-bold">&times;</button>
-            
-            <div class="mb-6">
-                <div class="flex justify-between mb-4 relative">
-                    <div class="absolute top-4 left-0 right-0 h-0.5 bg-white/10 -z-10"></div>
-                    <div id="step-dots" class="flex justify-between w-full">
-                        </div>
-                </div>
-                <div class="h-1 bg-white/10 rounded-full overflow-hidden">
-                    <div id="step-progress-line" class="h-full bg-gradient-to-r from-orange-500 to-orange-600 transition-all duration-300 w-0"></div>
-                </div>
-            </div>
-
-            <div id="form-step-0" class="form-step">
-                <h3 class="text-xl font-bold text-center mb-6">ما هو الجهاز المُراد صيانته؟</h3>
-                <div class="flex gap-4">
-                    <button onclick="setFormValue('deviceType', 'بوتجاز')" id="card-dev-بوتجاز" class="choice-card flex-1 bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center gap-3 transition-all hover:border-orange-500/50">
-                        <span class="text-4xl">🍳</span>
-                        <span class="font-bold">بوتجاز</span>
-                    </button>
-                    <button onclick="setFormValue('deviceType', 'سخان غاز')" id="card-dev-سخان" class="choice-card flex-1 bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col items-center gap-3 transition-all hover:border-orange-500/50">
-                        <span class="text-4xl">🚿</span>
-                        <span class="font-bold">سخان غاز</span>
-                    </button>
-                </div>
-            </div>
-
-            <div id="form-step-1" class="form-step hidden">
-                <h3 class="text-xl font-bold text-center mb-6">نوع الخدمة المطلوبة</h3>
-                <div class="flex flex-col gap-3">
-                    <button onclick="setFormValue('serviceType', 'صيانة جهاز حالي')" id="card-serv-1" class="service-option-card text-right p-4 bg-white/5 border border-white/10 rounded-xl flex items-center gap-4 transition-all">
-                        <span class="text-3xl">🔧</span>
-                        <div>
-                            <div class="font-bold">صيانة جهاز حالي</div>
-                            <div class="text-xs text-slate-400 mt-0.5">إصلاح مشكلة في جهازك الحالي بالمنزل</div>
-                        </div>
-                    </button>
-                    <button onclick="setFormValue('serviceType', 'توصيل وتثبيت جهاز جديد')" id="card-serv-2" class="service-option-card text-right p-4 bg-white/5 border border-white/10 rounded-xl flex items-center gap-4 transition-all">
-                        <span class="text-3xl">📦</span>
-                        <div>
-                            <div class="font-bold">توصيل وتثبيت جهاز جديد</div>
-                            <div class="text-xs text-slate-400 mt-0.5">تركيب وضبط جهاز جديد بأعلى معايير الأمان</div>
-                        </div>
-                    </button>
-                    <button onclick="setFormValue('serviceType', 'تجديد شامل لجهاز قديم')" id="card-serv-3" class="service-option-card text-right p-4 bg-white/5 border border-white/10 rounded-xl flex items-center gap-4 transition-all">
-                        <span class="text-3xl">✨</span>
-                        <div>
-                            <div class="font-bold">تجديد شامل لجهاز قديم</div>
-                            <div class="text-xs text-slate-400 mt-0.5">عمرة صيانة كاملة وتجديد مظهر الهيكل الخارجي</div>
-                        </div>
-                    </button>
-                </div>
-            </div>
-
-            <div id="form-step-2" class="form-step hidden">
-                <h3 class="text-xl font-bold text-center mb-4">تفاصيل الجهاز والعطل</h3>
-                <div class="mb-4">
-                    <label class="block text-xs text-slate-400 mb-2">الماركة <span class="text-orange-500">*</span></label>
-                    <select id="form-brand-select" onchange="setFormValue('brand', this.value)" class="w-full bg-[#1a1a32] border border-white/10 p-3 rounded-xl text-white outline-none focus:border-orange-500">
-                        <option value="" disabled selected>اختر الماركة...</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-xs text-slate-400 mb-2">المشكلة الشائعة <span class="text-orange-500">*</span></label>
-                    <div id="problems-badges-container" class="flex flex-wrap gap-2 mb-3">
-                        </div>
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-2">أو اكتب وصف مخصص للمشكلة</label>
-                    <textarea id="form-custom-problem" oninput="setFormValue('customProblem', this.value)" placeholder="اشرح المشكلة بالتفصيل هنا..." rows="3" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white outline-none focus:border-orange-500 resize-none"></textarea>
-                </div>
-            </div>
-
-            <div id="form-step-3" class="form-step hidden">
-                <h3 class="text-xl font-bold text-center mb-6">بيانات التواصل والزيارة</h3>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">الاسم الكامل <span class="text-orange-500">*</span></label>
-                        <input type="text" id="form-name" oninput="setFormValue('name', this.value)" placeholder="اكتب اسمك الثلاثي" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white outline-none focus:border-orange-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">رقم الهاتف <span class="text-orange-500">*</span></label>
-                        <input type="tel" id="form-phone" oninput="setFormValue('phone', this.value)" placeholder="01xxxxxxxxx" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white outline-none focus:border-orange-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">العنوان التفصيلي <span class="text-orange-500">*</span></label>
-                        <input type="text" id="form-address" oninput="setFormValue('address', this.value)" placeholder="الشارع، العمارة، الدور، الشقة" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white outline-none focus:border-orange-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">المحافظة <span class="text-orange-500">*</span></label>
-                        <select id="form-city-select" onchange="setFormValue('city', this.value)" class="w-full bg-[#1a1a32] border border-white/10 p-3 rounded-xl text-white outline-none focus:border-orange-500">
-                            </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex gap-3 mt-6 pt-4 border-t border-white/5">
-                <button id="btn-prev" onclick="moveStep(-1)" class="hidden flex-1 bg-white/5 border border-white/10 py-3 rounded-xl font-bold text-sm hover:bg-white/10 transition-colors">← السابق</button>
-                <button id="btn-next" onclick="moveStep(1)" disabled class="flex-[2] bg-white/10 text-slate-400 py-3 rounded-xl font-bold text-sm transition-all cursor-not-allowed">التالي →</button>
-                <button id="btn-submit-whatsapp" onclick="sendMaintenanceToWhatsApp()" class="hidden flex-[2] bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all">
-                    <span>📲</span> إرسال عبر واتس آب
-                </button>
-            </div>
-        </div>
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- NAVBAR -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="logo" onclick="showSection('home')">
+      <div class="logo-icon">🔥</div>
+      <div>
+        <div class="logo-text">تك فيكس</div>
+        <div class="logo-sub">صيانة وقطع غيار</div>
+      </div>
     </div>
-
-    <div id="trade-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-[#16162a] border border-white/10 w-full max-w-lg rounded-3xl p-6 relative shadow-2xl">
-            <button onclick="toggleModal('trade-modal')" class="absolute top-4 left-4 text-slate-400 hover:text-white text-xl font-bold">&times;</button>
-            <h3 class="text-xl font-bold text-center mb-6 text-orange-500">🔄 خدمات الاستبدال والبيع والاتجار 🔄</h3>
-            
-            <form id="trade-form" onsubmit="sendTradeInToWhatsApp(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">نوع الطلب</label>
-                    <select id="trade-requestType" required class="w-full bg-[#1a1a32] border border-white/10 p-3 rounded-xl text-white outline-none">
-                        <option value="sell">أريد بيع جهازي القديم كـ كسر زيرو/مستعمل</option>
-                        <option value="renew">أريد استبدال جهازي القديم بآخر مجدد ومعتمد</option>
-                    </select>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">نوع الجهاز</label>
-                        <select id="trade-deviceType" class="w-full bg-[#1a1a32] border border-white/10 p-3 rounded-xl text-white outline-none">
-                            <option value="بوتجاز">بوتجاز</option>
-                            <option value="سخان غاز">سخان غاز</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">الماركة</label>
-                        <input type="text" id="trade-brand" placeholder="مثال: كريازي" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white outline-none">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">العمر التقريبي للجهاز</label>
-                        <input type="text" id="trade-age" placeholder="مثال: سنتين" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">حالة الجهاز الحالية</label>
-                        <select id="trade-condition" class="w-full bg-[#1a1a32] border border-white/10 p-3 rounded-xl text-white outline-none">
-                            <option value="ممتاز">ممتاز (حالة المصنع)</option>
-                            <option value="جيد">جيد جداً (خدوش بسيطة)</option>
-                            <option value="متوسط">متوسط (يحتاج صيانة طفيفة)</option>
-                            <option value="سيئ">سيئ / خردة (شغال قطع غيار)</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">الاسم</label>
-                        <input type="text" id="trade-name" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">رقم الهاتف</label>
-                        <input type="tel" id="trade-phone" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">المحافظة</label>
-                    <select id="trade-city-select" class="w-full bg-[#1a1a32] border border-white/10 p-3 rounded-xl text-white outline-none"></select>
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">ملاحظات أو عيوب بالجهاز</label>
-                    <textarea id="trade-notes" rows="2" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white outline-none resize-none"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition-all">إرسال العرض للتقييم الفوري</button>
-            </form>
-        </div>
+    <div class="nav-links">
+      <button class="nav-btn active" onclick="showSection('home')"      id="nav-home">الرئيسية</button>
+      <button class="nav-btn"        onclick="showSection('maintenance')" id="nav-maintenance">حجز صيانة</button>
+      <button class="nav-btn"        onclick="showSection('parts')"      id="nav-parts">قطع الغيار</button>
+      <button class="nav-btn"        onclick="showSection('tradein')"    id="nav-tradein">بيع وتجديد</button>
     </div>
+    <button class="nav-cta" onclick="showSection('maintenance')">🔧 طلب صيانة</button>
+  </div>
+</nav>
 
-    <header class="border-b border-white/5 bg-slate-950/40 backdrop-blur sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span class="text-xl font-black text-white tracking-wider">TECH<span class="text-orange-500">FIX</span></span>
-            </div>
-            <nav class="hidden md:flex items-center gap-6 text-sm text-slate-400">
-                <a href="#home" class="hover:text-orange-500 transition-colors">الرئيسية</a>
-                <a href="#services-section" class="hover:text-orange-500 transition-colors">خدماتنا</a>
-                <a href="#store-section" class="hover:text-orange-500 transition-colors">متجر قطع الغيار</a>
-            </nav>
-            <button onclick="openMaintenanceModal()" class="bg-orange-500 hover:bg-orange-600 text-white text-xs md:text-sm px-5 py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-orange-500/10">
-                طلب صيانة منزلية فورية
-            </button>
-        </div>
-    </header>
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- HOME SECTION -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section id="section-home" class="section active">
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">⚡ خدمة صيانة منزلية سريعة وموثوقة</div>
+    <h1>خبراء صيانة<br /><span>البوتجازات والسخانات</span></h1>
+    <p>نوفر صيانة احترافية في منزلك، بيع قطع غيار أصلية، وشراء أجهزتك القديمة بأفضل الأسعار</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showSection('maintenance')">🔧 اطلب صيانة الآن</button>
+      <button class="btn-secondary" onclick="showSection('parts')">🛒 تصفح قطع الغيار</button>
+    </div>
+  </div>
 
-    <section id="home" class="py-20 text-center relative overflow-hidden border-b border-white/5 bg-gradient-to-b from-slate-950 to-slate-900">
-        <div class="max-w-4xl mx-auto px-4 relative z-10">
-            <span class="inline-block bg-orange-500/10 text-orange-500 text-xs px-3 py-1 rounded-full font-bold border border-orange-500/20 mb-4">أكبر مركز معتمد لصيانة الأجهزة المنزلية الغازية</span>
-            <h1 class="text-3xl md:text-6xl font-black leading-tight text-white mb-6">
-                صيانة وتجديد وتوفير قطع غيار <br>
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-orange-600">البوتجازات وسخانات الغاز بأعلى أمان</span>
-            </h1>
-            <p class="text-slate-400 md:text-lg max-w-2xl mx-auto mb-8">
-                خدمة صيانة فورية بالمنزل على أيدي مهندسين خبراء، قطع غيار أصلية بضمان، وشراء واستبدال الأجهزة القديمة بأفضل تقييم سعري في السوق.
-            </p>
-            <div class="flex flex-wrap items-center justify-center gap-4">
-                <button onclick="openMaintenanceModal()" class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-orange-500/20 transition-all">اضغط لحجز موعد صيانة</button>
-                <button onclick="toggleModal('trade-modal')" class="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-medium border border-white/10 px-8 py-3.5 rounded-xl transition-all">بيع أو استبدل جهازك القديم</button>
-            </div>
-        </div>
-    </section>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-num">+5000</div><div class="stat-label">عميل سعيد</div></div>
+    <div class="stat-card"><div class="stat-num">+10 سنوات</div><div class="stat-label">خبرة في المجال</div></div>
+    <div class="stat-card"><div class="stat-num">24/7</div><div class="stat-label">خدمة العملاء</div></div>
+    <div class="stat-card"><div class="stat-num">+500</div><div class="stat-label">قطعة غيار متاحة</div></div>
+  </div>
 
-    <section id="services-section" class="py-16 max-w-6xl mx-auto px-4">
-        <h2 class="text-2xl md:text-3xl font-black text-center mb-12">الخدمات المتاحة بورشة الصيانة</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                <div class="text-3xl mb-4">🔧</div>
-                <h3 class="text-lg font-bold mb-2">صيانة فورية بالمنزل</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">نصلك لباب البيت أينما كنت لإصلاح أعطال الاشتعال، تسريبات الغاز، ضبط الشعلات وتغيير الفواني بكفاءة مطلقة.</p>
-            </div>
-            <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                <div class="text-3xl mb-4">✨</div>
-                <h3 class="text-lg font-bold mb-2">عمرة وتجديد الأجهزة</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">إعادة إحياء الأجهزة القديمة، إزالة الصدأ تماماً، دهان حراري مقاوم، وتغيير الأجزاء التالفة ليعود جهازك كالجديد تماماً.</p>
-            </div>
-            <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                <div class="text-3xl mb-4">🔄</div>
-                <h3 class="text-lg font-bold mb-2">استبدال وشراء القديم</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">نشتري البوتجازات والسخانات المستعملة والخردة بأفضل سعر، أو تستبدلها بجهاز آخر مجدد بالكامل بضمان معتمد.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="store-section" class="py-16 bg-slate-950/40 border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-black">🛒 متجر قطع الغيار المعتمدة</h2>
-                    <p class="text-sm text-slate-400 mt-1">تسوق احتياجاتك واطلبها لتصلك بالمنزل عبر كبسة زر مباشرة للواتساب</p>
-                </div>
-                <div id="catalog-filters" class="flex gap-2 overflow-x-auto pb-2 md:pb-0">
-                    <button onclick="filterCatalog('الكل')" id="filter-all" class="filter-tab-btn active bg-orange-500 text-white text-xs font-bold px-4 py-2 rounded-full whitespace-nowrap transition-all">الكل</button>
-                    <button onclick="filterCatalog('بوتجاز')" id="filter-stove" class="filter-tab-btn bg-white/5 text-slate-400 text-xs font-bold px-4 py-2 rounded-full whitespace-nowrap transition-all hover:bg-white/10">قطع بوتجاز</button>
-                    <button onclick="filterCatalog('سخان غاز')" id="filter-heater" class="filter-tab-btn bg-white/5 text-slate-400 text-xs font-bold px-4 py-2 rounded-full whitespace-nowrap transition-all hover:bg-white/10">قطع سخانات</button>
-                </div>
-            </div>
-
-            <div id="cart-panel" class="hidden mb-6 bg-emerald-500/10 border border-emerald-500/20 p-5 rounded-2xl">
-                <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
-                    <h4 class="text-
-                        
+  <div class="services-section">
+    <h2>خدماتنا المتكاملة</h2>
+    <div class="services-grid">
+      <div class="service-card" style="--c:#f97316" onmouseenter="this.style.borderColor='#f9731640'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.07)'">
+        <div class="service-icon" style="background:rgba(249,115,22,0.15)">🔧</div>
+        <h3 style="color:#f97316">صيانة منزلية</h3>
+        <p>نصلك أينما كنت لإصلاح جهازك بأسرع وقت وأفضل أسعار.</p>
+      </div>
+      <div class="service-card" onmouseenter="this.style.borderColor='#3b82f640'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.07)'">
+        <div class="service-icon" style="background:rgba(59,130,246,0.15)">🛒</div>
+        <h3 st
