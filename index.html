@@ -1,474 +1,294 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        import { useState, useEffect, useRef } from "react";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تك فيكس | صيانة وقطع غيار</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-// ============================================================
-// WHATSAPP UTILITY - تحويل البيانات لرابط واتس آب
-// ============================================================
-const WHATSAPP_NUMBER = "201001234567"; // ← غيّر لرقمك
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #0f0f1a;
+        }
+        /* إخفاء وميض التحميل قبل تشغيل الـ React */
+        #root:empty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #f97316;
+            font-family: 'Cairo', sans-serif;
+            font-size: 24px;
+        }
+        #root:empty::after {
+            content: "جاري تحميل تك فيكس... 🔥";
+        }
+    </style>
+</head>
+<body>
 
-function buildWhatsAppURL(message) {
-  const encoded = encodeURIComponent(message);
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
-}
+    <div id="root"></div>
 
-function formatMaintenanceMessage(data) {
-  return `🚨 *طلب صيانة جديد* 🚨
-━━━━━━━━━━━━━━━━━━
-👤 *العميل:* ${data.name}
-📞 *الهاتف:* ${data.phone}
-📍 *العنوان:* ${data.address}، ${data.city}
-━━━━━━━━━━━━━━━━━━
-🛠️ *الجهاز:* ${data.deviceType} - ${data.brand}
-💼 *نوع الخدمة:* ${data.serviceType}
-📝 *المشكلة/التفاصيل:* ${data.problem || data.customProblem}
-━━━━━━━━━━━━━━━━━━
-⏰ *وقت الطلب:* ${new Date().toLocaleString("ar-EG")}`;
-}
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-function formatPartsMessage(cart) {
-  const items = cart.map(i => `• ${i.name} × ${i.qty} = ${(i.price * i.qty).toLocaleString()} ج.م`).join("\n");
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  return `🛒 *طلب قطع غيار* 🛒
-━━━━━━━━━━━━━━━━━━
-${items}
-━━━━━━━━━━━━━━━━━━
-💰 *الإجمالي:* ${total.toLocaleString()} ج.م
-━━━━━━━━━━━━━━━━━━
-⏰ *وقت الطلب:* ${new Date().toLocaleString("ar-EG")}`;
-}
+        // ============================================================ //
+        // WHATSAPP UTILITY - تم تغيير الرقم لرقمك الجديد هنا تلقائياً
+        // ============================================================ //
+        const WHATSAPP_NUMBER = "201117735952"; 
 
-function formatTradeInMessage(data) {
-  return `🔄 *طلب ${data.requestType === "sell" ? "بيع جهاز" : "تجديد جهاز"}* 🔄
-━━━━━━━━━━━━━━━━━━
-👤 *العميل:* ${data.name}
-📞 *الهاتف:* ${data.phone}
-📍 *المنطقة:* ${data.city}
-━━━━━━━━━━━━━━━━━━
-📦 *نوع الجهاز:* ${data.deviceType}
-🏷️ *الماركة:* ${data.brand}
-📅 *العمر التقريبي:* ${data.age}
-📊 *الحالة:* ${data.condition}
-📝 *تفاصيل إضافية:* ${data.notes || "لا يوجد"}
-━━━━━━━━━━━━━━━━━━
-⏰ *وقت الطلب:* ${new Date().toLocaleString("ar-EG")}`;
-}
+        function buildWhatsAppURL(message) {
+            const encoded = encodeURIComponent(message);
+            return `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
+        }
 
-// ============================================================
-// DATABASE SCHEMA (موضحة كـ comments للمطور)
-// ============================================================
-/*
-MAINTENANCE_REQUESTS {
-  id: UUID PK
-  client_name: VARCHAR(100)
-  client_phone: VARCHAR(20)
-  client_address: TEXT
-  city: VARCHAR(50)
-  device_type: ENUM('بوتجاز','سخان غاز')
-  brand: VARCHAR(50)
-  service_type: ENUM('صيانة','توصيل جديد','تجديد')
-  problem: TEXT
-  status: ENUM('pending','confirmed','in_progress','done') DEFAULT 'pending'
-  created_at: TIMESTAMP DEFAULT NOW()
-}
+        function formatMaintenanceMessage(data) {
+            return `🚨 *طلب صيانة جديد* 🚨\n━━━━━━━━━━━━━━━━━━\n👤 *العميل:* ${data.name}\n📞 *الهاتف:* ${data.phone}\n📍 *العنوان:* ${data.address}، ${data.city}\n━━━━━━━━━━━━━━━━━━\n🛠️ *الجهاز:* ${data.deviceType} - ${data.brand}\n💼 *نوع الخدمة:* ${data.serviceType}\n📝 *المشكلة/التفاصيل:* ${data.problem || data.customProblem}\n━━━━━━━━━━━━━━━━━━\n⏰ *وقت الطلب:* ${new Date().toLocaleString("ar-EG")}`;
+        }
 
-PARTS_ORDERS {
-  id: UUID PK
-  items: JSONB  -- [{part_id, name, qty, price}]
-  total: DECIMAL(10,2)
-  created_at: TIMESTAMP
-}
+        function formatPartsMessage(cart) {
+            const items = cart.map(i => `• ${i.name} × ${i.qty} = ${(i.price * i.qty).toLocaleString()} ج.م`).join("\n");
+            const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            return `🛒 *طلب قطع غيار* 🛒\n━━━━━━━━━━━━━━━━━━\n${items}\n━━━━━━━━━━━━━━━━━━\n💰 *الإجمالي:* ${total.toLocaleString()} ج.م\n━━━━━━━━━━━━━━━━━━\n⏰ *وقت الطلب:* ${new Date().toLocaleString("ar-EG")}`;
+        }
 
-TRADE_IN_REQUESTS {
-  id: UUID PK
-  client_name: VARCHAR(100)
-  client_phone: VARCHAR(20)
-  city: VARCHAR(50)
-  device_type: VARCHAR(50)
-  brand: VARCHAR(50)
-  age: VARCHAR(20)
-  condition: ENUM('ممتاز','جيد','متوسط','سيئ')
-  request_type: ENUM('sell','renew')
-  notes: TEXT
-  images: JSONB  -- [url1, url2...]
-  created_at: TIMESTAMP
-}
+        function formatTradeInMessage(data) {
+            return `🔄 *طلب ${data.requestType === "sell" ? "بيع جهاز" : "تجديد جهاز"}* 🔄\n━━━━━━━━━━━━━━━━━━\n👤 *العميل:* ${data.name}\n📞 *الهاتف:* ${data.phone}\n📍 *المنطقة:* ${data.city}\n━━━━━━━━━━━━━━━━━━\n📦 *نوع الجهاز:* ${data.deviceType}\n🏷️ *الماركة:* ${data.brand}\n📅 *العمر التقريبي:* ${data.age}\n📊 *الحالة:* ${data.condition}\n📝 *تفاصيل إضافية:* ${data.notes || "لا يوجد"}\n━━━━━━━━━━━━━━━━━━\n⏰ *وقت الطلب:* ${new Date().toLocaleString("ar-EG")}`;
+        }
 
-PARTS_CATALOG {
-  id: UUID PK
-  name: VARCHAR(100)
-  category: VARCHAR(50)
-  brand: VARCHAR(50)
-  price: DECIMAL(10,2)
-  stock: INT
-  image_url: TEXT
-  description: TEXT
-}
-*/
+        // ============================================================ //
+        // DATA
+        // ============================================================ //
+        const BRANDS = {
+            "بوتجاز": ["كريازي","شارب","تيكا","كونكورد","أمريكانا","زانوسي","آرديم","هاير","يونيون إير","أخرى"],
+            "سخان غاز": ["جوناي","إيتال","كريازي","فريش","تيرما","هاميلتون","كليما","أخرى"],
+        };
+        const PROBLEMS = {
+            "بوتجاز": ["اشتعال الشعلات","خلل في الفرن","تسريب غاز","مؤقت لا يعمل","صدأ / تلف هيكل","أخرى"],
+            "سخان غاز": ["لا يشتعل","ضعف اللهب","تسريب ماء","تسريب غاز","صوت غير طبيعي","أخرى"],
+        };
+        const PARTS_DATA = [
+            { id: 1, name: "شعلة بوتجاز يونيفرسال", category: "بوتجاز", brand: "يونيفرسال", price: 85, image: "🔥", desc: "تناسب معظم ماركات البوتجازات" },
+            { id: 2, name: "ترموستات سخان غاز", category: "سخان غاز", brand: "جوناي", price: 220, image: "🌡️", desc: "أصلي من المصنع" },
+            { id: 3, name: "حرق بوتجاز كريازي", category: "بوتجاز", brand: "كريازي", price: 150, image: "⚙️", desc: "قطعة أصلية معتمدة" },
+            { id: 4, name: "صمام أمان سخان غاز", category: "سخان غاز", brand: "يونيفرسال", price: 180, image: "🔧", desc: "يناسب جميع الأحجام" },
+            { id: 5, name: "زجاج فرن بوتجاز", category: "بوتجاز", brand: "شارب", price: 320, image: "🪟", desc: "زجاج مقسّى عالي الحرارة" },
+            { id: 6, name: "موقد غاز كامل", category: "بوتجاز", brand: "يونيفرسال", price: 95, image: "🔩", desc: "يونيفرسال يناسب كل الماركات" },
+        ];
+        const CITIES = ["القاهرة","الجيزة","الإسكندرية","الشرقية","الدقهلية","البحيرة","المنوفية","القليوبية","الفيوم","بني سويف","المنيا","أسيوط","سوهاج","قنا","الأقصر","أسوان","البحر الأحمر","سيناء","مطروح","دمياط","كفر الشيخ","الإسماعيلية","السويس","بورسعيد"];
 
-// ============================================================
-// DATA
-// ============================================================
-const BRANDS = {
-  "بوتجاز": ["كريازي","شارب","تيكا","كونكورد","أمريكانا","زانوسي","آرديم","هاير","يونيون إير","أخرى"],
-  "سخان غاز": ["جوناي","إيتال","كريازي","فريش","تيرما","هاميلتون","كليما","أخرى"],
-};
-
-const PROBLEMS = {
-  "بوتجاز": ["اشتعال الشعلات","خلل في الفرن","تسريب غاز","مؤقت لا يعمل","صدأ / تلف هيكل","أخرى"],
-  "سخان غاز": ["لا يشتعل","ضعف اللهب","تسريب ماء","تسريب غاز","صوت غير طبيعي","أخرى"],
-};
-
-const PARTS_DATA = [
-  { id: 1, name: "شعلة بوتجاز يونيفرسال", category: "بوتجاز", brand: "يونيفرسال", price: 85, image: "🔥", desc: "تناسب معظم ماركات البوتجازات" },
-  { id: 2, name: "ترموستات سخان غاز", category: "سخان غاز", brand: "جوناي", price: 220, image: "🌡️", desc: "أصلي من المصنع" },
-  { id: 3, name: "حرق بوتجاز كريازي", category: "بوتجاز", brand: "كريازي", price: 150, image: "⚙️", desc: "قطعة أصلية معتمدة" },
-  { id: 4, name: "صمام أمان سخان غاز", category: "سخان غاز", brand: "يونيفرسال", price: 180, image: "🔧", desc: "يناسب جميع الأحجام" },
-  { id: 5, name: "زجاج فرن بوتجاز", category: "بوتجاز", brand: "شارب", price: 320, image: "🪟", desc: "زجاج مقسّى عالي الحرارة" },
-  { id: 6, name: "موقد غاز كامل", category: "بوتجاز", brand: "يونيفرسال", price: 95, image: "🔩", desc: "يونيفرسال يناسب كل الماركات" },
-];
-
-const CITIES = ["القاهرة","الجيزة","الإسكندرية","الشرقية","الدقهلية","البحيرة","المنوفية","القليوبية","الفيوم","بني سويف","المنيا","أسيوط","سوهاج","قنا","الأقصر","أسوان","البحر الأحمر","سيناء","مطروح","دمياط","كفر الشيخ","الإسماعيلية","السويس","بورسعيد"];
-
-// ============================================================
-// COMPONENTS
-// ============================================================
-
-function ProgressBar({ step, total }) {
-  return (
-    <div style={{ marginBottom: 28 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-        {Array.from({ length: total }, (_, i) => (
-          <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
-            <div style={{
-              width: 36, height: 36, borderRadius: "50%",
-              background: i < step ? "linear-gradient(135deg,#f97316,#ea580c)" : i === step ? "#fff" : "rgba(255,255,255,0.1)",
-              border: i === step ? "2px solid #f97316" : "2px solid transparent",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: i < step ? "#fff" : i === step ? "#f97316" : "rgba(255,255,255,0.3)",
-              fontWeight: 700, fontSize: 14, transition: "all .3s",
-              boxShadow: i === step ? "0 0 0 4px rgba(249,115,22,0.2)" : "none",
-            }}>
-              {i < step ? "✓" : i + 1}
-            </div>
-            {i < total - 1 && (
-              <div style={{
-                position: "absolute", height: 2, background: i < step ? "#f97316" : "rgba(255,255,255,0.1)",
-                transition: "background .3s",
-              }} />
-            )}
-          </div>
-        ))}
-      </div>
-      <div style={{ height: 4, background: "rgba(255,255,255,0.08)", borderRadius: 99, overflow: "hidden" }}>
-        <div style={{
-          height: "100%", borderRadius: 99,
-          background: "linear-gradient(90deg,#f97316,#ea580c)",
-          width: `${(step / (total - 1)) * 100}%`,
-          transition: "width .4s cubic-bezier(.4,0,.2,1)",
-        }} />
-      </div>
-    </div>
-  );
-}
-
-function Input({ label, type = "text", value, onChange, placeholder, required }) {
-  return (
-    <div style={{ marginBottom: 16 }}>
-      <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 6, fontFamily: "inherit" }}>
-        {label} {required && <span style={{ color: "#f97316" }}>*</span>}
-      </label>
-      <input
-        type={type}
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        placeholder={placeholder}
-        required={required}
-        style={{
-          width: "100%", padding: "12px 16px", borderRadius: 10,
-          background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.12)",
-          color: "#fff", fontSize: 15, fontFamily: "inherit", outline: "none",
-          transition: "border .2s",
-          boxSizing: "border-box",
-        }}
-        onFocus={e => e.target.style.borderColor = "#f97316"}
-        onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.12)"}
-      />
-    </div>
-  );
-}
-
-function Select({ label, value, onChange, options, placeholder }) {
-  return (
-    <div style={{ marginBottom: 16 }}>
-      <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 6 }}>
-        {label} <span style={{ color: "#f97316" }}>*</span>
-      </label>
-      <select
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        style={{
-          width: "100%", padding: "12px 16px", borderRadius: 10,
-          background: "#1a1a2e", border: "1.5px solid rgba(255,255,255,0.12)",
-          color: value ? "#fff" : "rgba(255,255,255,0.35)", fontSize: 15,
-          fontFamily: "inherit", outline: "none", cursor: "pointer",
-          boxSizing: "border-box",
-        }}
-      >
-        <option value="" disabled>{placeholder || "اختر..."}</option>
-        {options.map(o => <option key={o} value={o} style={{ color: "#fff", background: "#1a1a2e" }}>{o}</option>)}
-      </select>
-    </div>
-  );
-}
-
-function ChoiceCard({ label, icon, selected, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        flex: 1, minWidth: 120, padding: "20px 16px", borderRadius: 14, cursor: "pointer",
-        background: selected ? "linear-gradient(135deg,rgba(249,115,22,.25),rgba(234,88,12,.15))" : "rgba(255,255,255,0.04)",
-        border: selected ? "2px solid #f97316" : "2px solid rgba(255,255,255,0.08)",
-        color: selected ? "#f97316" : "rgba(255,255,255,0.6)",
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
-        transition: "all .25s", fontFamily: "inherit",
-        boxShadow: selected ? "0 0 20px rgba(249,115,22,0.15)" : "none",
-        transform: selected ? "translateY(-2px)" : "none",
-      }}
-    >
-      <span style={{ fontSize: 36 }}>{icon}</span>
-      <span style={{ fontSize: 14, fontWeight: 600 }}>{label}</span>
-    </button>
-  );
-}
-
-// ============================================================
-// MAINTENANCE FORM (Multi-step)
-// ============================================================
-function MaintenanceForm({ onClose }) {
-  const [step, setStep] = useState(0);
-  const [form, setForm] = useState({
-    deviceType: "", serviceType: "", brand: "", problem: "", customProblem: "",
-    name: "", phone: "", address: "", city: "",
-  });
-  const [sent, setSent] = useState(false);
-
-  const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
-
-  const canNext = () => {
-    if (step === 0) return form.deviceType;
-    if (step === 1) return form.serviceType;
-    if (step === 2) return form.brand && (form.problem || form.customProblem);
-    if (step === 3) return form.name && form.phone && form.address && form.city;
-    return true;
-  };
-
-  const handleSend = () => {
-    const msg = formatMaintenanceMessage(form);
-    window.open(buildWhatsAppURL(msg), "_blank");
-    setSent(true);
-  };
-
-  if (sent) return (
-    <div style={{ textAlign: "center", padding: "40px 20px" }}>
-      <div style={{ fontSize: 64, marginBottom: 16 }}>✅</div>
-      <h3 style={{ color: "#4ade80", marginBottom: 8, fontSize: 22 }}>تم إرسال طلبك!</h3>
-      <p style={{ color: "rgba(255,255,255,0.6)", marginBottom: 24 }}>سيتواصل معك الفني في أقرب وقت ممكن.</p>
-      <button onClick={onClose} style={{ padding: "12px 32px", borderRadius: 10, background: "linear-gradient(135deg,#f97316,#ea580c)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontFamily: "inherit" }}>
-        إغلاق
-      </button>
-    </div>
-  );
-
-  return (
-    <div>
-      <ProgressBar step={step} total={4} />
-
-      {step === 0 && (
-        <div>
-          <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>ما هو الجهاز؟</h3>
-          <div style={{ display: "flex", gap: 12 }}>
-            <ChoiceCard label="بوتجاز" icon="🍳" selected={form.deviceType === "بوتجاز"} onClick={() => set("deviceType", "بوتجاز")} />
-            <ChoiceCard label="سخان غاز" icon="🚿" selected={form.deviceType === "سخان غاز"} onClick={() => set("deviceType", "سخان غاز")} />
-          </div>
-        </div>
-      )}
-
-      {step === 1 && (
-        <div>
-          <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>نوع الخدمة المطلوبة</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[
-              { val: "صيانة جهاز حالي", icon: "🔧", desc: "إصلاح مشكلة في جهازك" },
-              { val: "توصيل وتثبيت جهاز جديد", icon: "📦", desc: "تركيب جهاز اشتريته" },
-              { val: "تجديد شامل لجهاز قديم", icon: "✨", desc: "صيانة كاملة وتجديد مظهر" },
-            ].map(({ val, icon, desc }) => (
-              <button key={val} onClick={() => set("serviceType", val)} style={{
-                padding: "14px 18px", borderRadius: 12, cursor: "pointer",
-                background: form.serviceType === val ? "rgba(249,115,22,.2)" : "rgba(255,255,255,0.04)",
-                border: `2px solid ${form.serviceType === val ? "#f97316" : "rgba(255,255,255,0.08)"}`,
-                color: "#fff", display: "flex", alignItems: "center", gap: 14,
-                fontFamily: "inherit", textAlign: "right", transition: "all .2s",
-              }}>
-                <span style={{ fontSize: 28 }}>{icon}</span>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 15 }}>{val}</div>
-                  <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: 3 }}>{desc}</div>
+        // ============================================================ //
+        // COMPONENTS
+        // ============================================================ //
+        function ProgressBar({ step, total }) {
+            return (
+                <div style={{ marginBottom: 28 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, position: "relative" }}>
+                        {Array.from({ length: total }, (_, i) => (
+                            <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1, zIndex: 2 }}>
+                                <div style={{
+                                    width: 36, height: 36, borderRadius: "50%",
+                                    background: i < step ? "linear-gradient(135deg,#f97316,#ea580c)" : i === step ? "#fff" : "rgba(255,255,255,0.1)",
+                                    border: i === step ? "2px solid #f97316" : "2px solid transparent",
+                                    display: "flex", alignItems: "center", justifyContent: "center",
+                                    color: i < step ? "#fff" : i === step ? "#f97316" : "rgba(255,255,255,0.3)",
+                                    fontWeight: 700, fontSize: 14, transition: "all .3s",
+                                    boxShadow: i === step ? "0 0 0 4px rgba(249,115,22,0.2)" : "none",
+                                }}>
+                                    {i < step ? "✓" : i + 1}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div style={{ height: 4, background: "rgba(255,255,255,0.08)", borderRadius: 99, overflow: "hidden" }}>
+                        <div style={{
+                            height: "100%", borderRadius: 99,
+                            background: "linear-gradient(90deg,#f97316,#ea580c)",
+                            width: `${(step / (total - 1)) * 100}%`, transition: "width .4s cubic-bezier(.4,0,.2,1)",
+                        }} />
+                    </div>
                 </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+            );
+        }
 
-      {step === 2 && (
-        <div>
-          <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>تفاصيل الجهاز</h3>
-          <Select label="الماركة" value={form.brand} onChange={v => set("brand", v)}
-            options={BRANDS[form.deviceType] || []} placeholder="اختر الماركة" />
-          <div style={{ marginBottom: 8 }}>
-            <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 8 }}>
-              المشكلة <span style={{ color: "#f97316" }}>*</span>
-            </label>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {(PROBLEMS[form.deviceType] || []).map(p => (
-                <button key={p} onClick={() => { set("problem", p); set("customProblem", ""); }}
-                  style={{
-                    padding: "8px 14px", borderRadius: 20, cursor: "pointer", fontSize: 13,
-                    background: form.problem === p ? "rgba(249,115,22,.25)" : "rgba(255,255,255,0.06)",
-                    border: `1.5px solid ${form.problem === p ? "#f97316" : "rgba(255,255,255,0.1)"}`,
-                    color: form.problem === p ? "#f97316" : "rgba(255,255,255,0.7)",
-                    fontFamily: "inherit", transition: "all .2s",
-                  }}>
-                  {p}
+        function Input({ label, type = "text", value, onChange, placeholder, required }) {
+            return (
+                <div style={{ marginBottom: 16 }}>
+                    <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 6, fontFamily: "inherit" }}>
+                        {label} {required && <span style={{ color: "#f97316" }}>*</span>}
+                    </label>
+                    <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} required={required} style={{
+                        width: "100%", padding: "12px 16px", borderRadius: 10, background: "rgba(255,255,255,0.06)",
+                        border: "1.5px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: 15, fontFamily: "inherit",
+                        outline: "none", transition: "border .2s", boxSizing: "border-box",
+                    }} onFocus={e => e.target.style.borderColor = "#f97316"} onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.12)"} />
+                </div>
+            );
+        }
+
+        function Select({ label, value, onChange, options, placeholder }) {
+            return (
+                <div style={{ marginBottom: 16 }}>
+                    <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 6 }}>
+                        {label} <span style={{ color: "#f97316" }}>*</span>
+                    </label>
+                    <select value={value} onChange={e => onChange(e.target.value)} style={{
+                        width: "100%", padding: "12px 16px", borderRadius: 10, background: "#1a1a2e",
+                        border: "1.5px solid rgba(255,255,255,0.12)", color: value ? "#fff" : "rgba(255,255,255,0.35)",
+                        fontSize: 15, fontFamily: "inherit", outline: "none", cursor: "pointer", boxSizing: "border-box",
+                    }} >
+                        <option value="" disabled>{placeholder || "اختر..."}</option>
+                        {options.map(o => <option key={o} value={o} style={{ color: "#fff", background: "#1a1a2e" }}>{o}</option>)}
+                    </select>
+                </div>
+            );
+        }
+
+        function ChoiceCard({ label, icon, selected, onClick }) {
+            return (
+                <button onClick={onClick} style={{
+                    flex: 1, minWidth: 120, padding: "20px 16px", borderRadius: 14, cursor: "pointer",
+                    background: selected ? "linear-gradient(135deg,rgba(249,115,22,.25),rgba(234,88,12,.15))" : "rgba(255,255,255,0.04)",
+                    border: selected ? "2px solid #f97316" : "2px solid rgba(255,255,255,0.08)",
+                    color: selected ? "#f97316" : "rgba(255,255,255,0.6)", display: "flex", flexDirection: "column",
+                    alignItems: "center", gap: 10, transition: "all .25s", fontFamily: "inherit",
+                    boxShadow: selected ? "0 0 20px rgba(249,115,22,0.15)" : "none",
+                    transform: selected ? "translateY(-2px)" : "none",
+                }} >
+                    <span style={{ fontSize: 36 }}>{icon}</span>
+                    <span style={{ fontSize: 14, fontWeight: 600 }}>{label}</span>
                 </button>
-              ))}
-            </div>
-          </div>
-          <div style={{ marginTop: 12 }}>
-            <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 6 }}>
-              أو اكتب وصف مخصص
-            </label>
-            <textarea value={form.customProblem}
-              onChange={e => { set("customProblem", e.target.value); set("problem", ""); }}
-              placeholder="اشرح المشكلة بتفصيل..."
-              rows={3}
-              style={{
-                width: "100%", padding: "12px 16px", borderRadius: 10,
-                background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.12)",
-                color: "#fff", fontSize: 14, fontFamily: "inherit", resize: "none", outline: "none",
-                boxSizing: "border-box",
-              }}
-              onFocus={e => e.target.style.borderColor = "#f97316"}
-              onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.12)"}
-            />
-          </div>
-        </div>
-      )}
+            );
+        }
 
-      {step === 3 && (
-        <div>
-          <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>بياناتك الشخصية</h3>
-          <Input label="الاسم" value={form.name} onChange={v => set("name", v)} placeholder="اسمك الكامل" required />
-          <Input label="رقم الهاتف" type="tel" value={form.phone} onChange={v => set("phone", v)} placeholder="01xxxxxxxxx" required />
-          <Input label="العنوان التفصيلي" value={form.address} onChange={v => set("address", v)} placeholder="الشارع، العمارة، الدور، الشقة" required />
-          <Select label="المحافظة" value={form.city} onChange={v => set("city", v)} options={CITIES} placeholder="اختر المحافظة" />
-        </div>
-      )}
+        // ============================================================ //
+        // MAINTENANCE FORM
+        // ============================================================ //
+        function MaintenanceForm({ onClose }) {
+            const [step, setStep] = useState(0);
+            const [form, setForm] = useState({ deviceType: "", serviceType: "", brand: "", problem: "", customProblem: "", name: "", phone: "", address: "", city: "", });
+            const [sent, setSent] = useState(false);
+            const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
+            
+            const canNext = () => {
+                if (step === 0) return form.deviceType;
+                if (step === 1) return form.serviceType;
+                if (step === 2) return form.brand && (form.problem || form.customProblem);
+                if (step === 3) return form.name && form.phone && form.address && form.city;
+                return true;
+            };
 
-      {/* Navigation */}
-      <div style={{ display: "flex", gap: 10, marginTop: 28 }}>
-        {step > 0 && (
-          <button onClick={() => setStep(s => s - 1)} style={{
-            flex: 1, padding: "14px", borderRadius: 10, cursor: "pointer",
-            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
-            color: "#fff", fontSize: 15, fontFamily: "inherit",
-          }}>
-            ← السابق
-          </button>
-        )}
-        {step < 3 ? (
-          <button onClick={() => canNext() && setStep(s => s + 1)} style={{
-            flex: 2, padding: "14px", borderRadius: 10, cursor: canNext() ? "pointer" : "not-allowed",
-            background: canNext() ? "linear-gradient(135deg,#f97316,#ea580c)" : "rgba(255,255,255,0.08)",
-            color: canNext() ? "#fff" : "rgba(255,255,255,0.3)", border: "none",
-            fontSize: 15, fontWeight: 700, fontFamily: "inherit", transition: "all .2s",
-          }}>
-            التالي ←
-          </button>
-        ) : (
-          <button onClick={handleSend} disabled={!canNext()} style={{
-            flex: 2, padding: "14px", borderRadius: 10, cursor: "pointer",
-            background: "linear-gradient(135deg,#25d366,#128c7e)",
-            color: "#fff", border: "none", fontSize: 15, fontWeight: 700, fontFamily: "inherit",
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-          }}>
-            <span>📲</span> إرسال عبر واتس آب
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
+            const handleSend = () => {
+                const msg = formatMaintenanceMessage(form);
+                window.open(buildWhatsAppURL(msg), "_blank");
+                setSent(true);
+            };
 
-// ============================================================
-// PARTS STORE
-// ============================================================
-function PartsStore() {
-  const [cart, setCart] = useState([]);
-  const [filter, setFilter] = useState("الكل");
-  const [showCart, setShowCart] = useState(false);
+            if (sent) return (
+                <div style={{ textAlign: "center", padding: "40px 20px" }}>
+                    <div style={{ fontSize: 64, marginBottom: 16 }}>✅</div>
+                    <h3 style={{ color: "#4ade80", marginBottom: 8, fontSize: 22 }}>تم إرسال طلبك!</h3>
+                    <p style={{ color: "rgba(255,255,255,0.6)", marginBottom: 24 }}>سيتواصل معك الفني في أقرب وقت ممكن.</p>
+                    <button onClick={onClose} style={{ padding: "12px 32px", borderRadius: 10, background: "linear-gradient(135deg,#f97316,#ea580c)", color: "#fff", border: "none", cursor: "pointer", fontSize: 15, fontFamily: "inherit" }}> إغلاق </button>
+                </div>
+            );
 
-  const filtered = filter === "الكل" ? PARTS_DATA : PARTS_DATA.filter(p => p.category === filter);
-  const totalQty = cart.reduce((s, i) => s + i.qty, 0);
-
-  const addToCart = (part) => {
-    setCart(c => {
-      const ex = c.find(i => i.id === part.id);
-      if (ex) return c.map(i => i.id === part.id ? { ...i, qty: i.qty + 1 } : i);
-      return [...c, { ...part, qty: 1 }];
-    });
-  };
-
-  const sendCartToWhatsApp = () => {
-    if (!cart.length) return;
-    window.open(buildWhatsAppURL(formatPartsMessage(cart)), "_blank");
-  };
-
-  return (
-    <div>
-      {/* Filter tabs */}
-      <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
-        {["الكل", "بوتجاز", "سخان غاز"].map(f => (
-          <button key={f} onClick={() => setFilter(f)} style={{
-            padding: "8px 18px", borderRadius: 20, cursor: "pointer", fontSize: 13,
-            background: filter === f ? "linear-gradient(135deg,#f97316,#ea580c)" : "rgba(255,255,255,0.06)",
-            color: filter === f ? "#fff" : "rgba(255,255,255,0.6)",
-            border: "1px solid " + (filter === f ? "transparent" : "rgba(255,255,255,0.1)"),
-            fontFamily: "inherit",
-          }}>{f}</button>
-        ))}
-        {totalQty > 0 && (
-          <button onClick={() => setShowCart(!showCart)} style={{
-            marginRight: "auto", padding: "8px 18px", borderRadius: 20, cursor: "pointer",
-            background: "rgba(37,211,102,0.15)", border: "1px solid #25d366",
-            color: "#25d366", fontSize: 13, fontFamily: "inherit",
-          }}>
-            🛒 السلة ({totalQty})
-          </button>
-        )}
-      </div>
-
-      {/* Cart Panel */}
-      {showCart && cart.length > 0 && (
-        <div style={{
-          background: "rgba(37,211,102,0.06)", border: "1px solid rgba(37,211,102,0.2)",
-          borderRadius: 14, padding: 20, marginBottom: 20,
-        }}>
-          <h4 style={{ color: "#25d366", marginBottom: 14 }}>🛒 سلة الشراء</h4>
-          {cart.map(item => (
-            <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginB    
+            return (
+                <div>
+                    <ProgressBar step={step} total={4} />
+                    {step === 0 && (
+                        <div>
+                            <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>ما هو الجهاز؟</h3>
+                            <div style={{ display: "flex", gap: 12 }}>
+                                <ChoiceCard label="بوتجاز" icon="🍳" selected={form.deviceType === "بوتجاز"} onClick={() => set("deviceType", "بوتجاز")} />
+                                <ChoiceCard label="سخان غاز" icon="🚿" selected={form.deviceType === "سخان غاز"} onClick={() => set("deviceType", "سخان غاز")} />
+                            </div>
+                        </div>
+                    )}
+                    {step === 1 && (
+                        <div>
+                            <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>نوع الخدمة المطلوبة</h3>
+                            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                                {[
+                                    { val: "صيانة جهاز حالي", icon: "🔧", desc: "إصلاح مشكلة في جهازك" },
+                                    { val: "توصيل وتثبيت جهاز جديد", icon: "📦", desc: "تركيب جهاز اشتريته" },
+                                    { val: "تجديد شامل لجهاز قديم", icon: "✨", desc: "صيانة كاملة وتجديد مظهر" },
+                                ].map(({ val, icon, desc }) => (
+                                    <button key={val} onClick={() => set("serviceType", val)} style={{
+                                        padding: "14px 18px", borderRadius: 12, cursor: "pointer",
+                                        background: form.serviceType === val ? "rgba(249,115,22,.2)" : "rgba(255,255,255,0.04)",
+                                        border: `2px solid ${form.serviceType === val ? "#f97316" : "rgba(255,255,255,0.08)"}`,
+                                        color: "#fff", display: "flex", alignItems: "center", gap: 14, fontFamily: "inherit", textAlign: "right", transition: "all .2s",
+                                    }}>
+                                        <span style={{ fontSize: 28 }}>{icon}</span>
+                                        <div>
+                                            <div style={{ fontWeight: 700, fontSize: 15 }}>{val}</div>
+                                            <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: 3 }}>{desc}</div>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                    {step === 2 && (
+                        <div>
+                            <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>تفاصيل الجهاز</h3>
+                            <Select label="الماركة" value={form.brand} onChange={v => set("brand", v)} options={BRANDS[form.deviceType] || []} placeholder="اختر الماركة" />
+                            <div style={{ marginBottom: 8 }}>
+                                <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 8 }}> المشكلة <span style={{ color: "#f97316" }}>*</span> </label>
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                                    {(PROBLEMS[form.deviceType] || []).map(p => (
+                                        <button key={p} onClick={() => { set("problem", p); set("customProblem", ""); }} style={{
+                                            padding: "8px 14px", borderRadius: 20, cursor: "pointer", fontSize: 13,
+                                            background: form.problem === p ? "rgba(249,115,22,.25)" : "rgba(255,255,255,0.06)",
+                                            border: `1.5px solid ${form.problem === p ? "#f97316" : "rgba(255,255,255,0.1)"}`,
+                                            color: form.problem === p ? "#f97316" : "rgba(255,255,255,0.7)", fontFamily: "inherit", transition: "all .2s",
+                                        }}>
+                                            {p}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div style={{ marginTop: 12 }}>
+                                <label style={{ display: "block", color: "rgba(255,255,255,0.7)", fontSize: 13, marginBottom: 6 }}> أو اكتب وصف مخصص </label>
+                                <textarea value={form.customProblem} onChange={e => { set("customProblem", e.target.value); set("problem", ""); }} placeholder="اشرح المشكلة بتفصيل..." rows={3} style={{
+                                    width: "100%", padding: "12px 16px", borderRadius: 10, background: "rgba(255,255,255,0.06)",
+                                    border: "1.5px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: 14, fontFamily: "inherit",
+                                    resize: "none", outline: "none", boxSizing: "border-box",
+                                }} onFocus={e => e.target.style.borderColor = "#f97316"} onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.12)"} />
+                            </div>
+                        </div>
+                    )}
+                    {step === 3 && (
+                        <div>
+                            <h3 style={{ color: "#fff", marginBottom: 20, textAlign: "center" }}>بياناتك الشخصية</h3>
+                            <Input label="الاسم" value={form.name} onChange={v => set("name", v)} placeholder="اسمك الكامل" required />
+                            <Input label="رقم الهاتف" type="tel" value={form.phone} onChange={v => set("phone", v)} placeholder="01xxxxxxxxx" required />
+                            <Input label="العنوان التفصيلي" value={form.address} onChange={v => set("address", v)} placeholder="الشارع، العمارة، الدور، الشقة" required />
+                            <Select label="المحافظة" value={form.city} onChange={v => set("city", v)} options={CITIES} placeholder="اختر المحافظة" />
+                        </div>
+                    )}
+                    
+                    <div style={{ display: "flex", gap: 10, marginTop: 28 }}>
+                        {step > 0 && (
+                            <button onClick={() => setStep(s => s - 1)} style={{
+                                flex: 1, padding: "14px", borderRadius: 10, cursor: "pointer",
+                                background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
+                                color: "#fff", fontSize: 15, fontFamily: "inherit",
+                            }}> ← السابق </button>
+                        )}
+                        {step < 3 ? (
+                            <button onClick={() => canNext() && setStep(s => s + 1)} style={{
+                                flex: 2, padding: "14px", borderRadius: 10, cursor: canNext() ? "pointer" : "not-allowed",
+                                background: canNext() ? "linear-gradient(135deg,#f97316,#ea580c)" : "rgba(255,255,255,0.08)",
+                                color: canNext() ? "#fff" : "rgba(255,255,255,0.3)", border: "none", fontSize: 15, fontWeight: 700, fontFamily: "inherit", transition: "all .2s",
+                         
