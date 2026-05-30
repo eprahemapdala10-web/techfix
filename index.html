@@ -1,20 +1,621 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تك فيكس | صيانة وقطع غيار</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; font-family: 'Cairo', 'Segoe UI', sans-serif; margin: 0; padding: 0; }
-        body { background: #0f0f1a; color: #fff; min-height: 100vh; overflow-x: hidden; direction: rtl; }
-        .bg-gradient { background-image: radial-gradient(ellipse at 20% 0%, rgba(249,115,22,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 100%, rgba(59,130,246,0.05) 0%, transparent 60%); }
-        nav { position: sticky; top: 0; z-index: 100; background: rgba(15,15,26,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 20px; }
-        .nav-container { max-width: 1100px; margin: 0 auto; display: flex; alignItems: center; display: flex; align-items: center; height: 64px; gap: 20px; }
-        .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; color: #fff; }
-        .logo-icon { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg,#f97316,#ea580c); display: flex; align-items: center; justify-content: center; fontSize: 20px; }
-        .nav-links { display: flex; gap: 4px; margin-right: auto; }
-        .nav-btn { padding: 8px 16px; border-radius: 8px; cursor: pointer; background: transparent; color: rgba(255,255,255,0.6); border: none; font-size: 14px; font-weight: 600; transition: all 0.2s; }
-        .nav-btn.active { background: rgba(249,115,22,0.15); color: #f9
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>تك فيكس | صيانة بوتجازات وسخانات غاز</title>
+<meta name="description" content="صيانة بوتجازات وسخانات غاز بأسعار مناسبة وضمان على الإصلاح"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--or:#f97316;--ord:#ea580c;--gr:#25d366;--grd:#128c7e;--bg:#0f0f1a;--bd:rgba(255,255,255,0.08);--tm:rgba(255,255,255,0.5);--td:rgba(255,255,255,0.3)}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:#fff;min-height:100vh;direction:rtl;background-image:radial-gradient(ellipse at 20% 0%,rgba(249,115,22,.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(59,130,246,.05) 0%,transparent 60%)}
+button,input,select,textarea{font-family:'Cairo',sans-serif}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(15,15,26,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);padding:0 20px}
+.ni{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:64px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-i{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--or),var(--ord));display:flex;align-items:center;justify-content:center;font-size:20px}
+.logo-t{font-weight:800;font-size:15px;line-height:1}
+.logo-s{font-size:10px;color:var(--td);line-height:1.4}
+.navlinks{display:flex;gap:4px;margin-right:auto}
+.nb{padding:8px 14px;border-radius:8px;border:none;background:transparent;color:var(--tm);font-size:13px;font-weight:600;transition:all .2s}
+.nb.on,.nb:hover{background:rgba(249,115,22,.15);color:var(--or)}
+.ncta{padding:10px 18px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--or),var(--ord));color:#fff;font-size:13px;font-weight:700;box-shadow:0 4px 20px rgba(249,115,22,.3);transition:transform .2s;white-space:nowrap}
+.ncta:hover{transform:translateY(-1px)}
+
+.sec{display:none}
+.sec.on{display:block}
+
+/* HOME */
+.hero{text-align:center;padding:80px 20px 60px;position:relative;overflow:hidden}
+.glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,.06) 0%,transparent 70%);pointer-events:none}
+.badge{display:inline-block;padding:6px 18px;border-radius:20px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);color:var(--or);font-size:13px;margin-bottom:24px;font-weight:600}
+.hero h1{font-size:clamp(32px,5vw,56px);font-weight:900;margin-bottom:20px;line-height:1.3}
+.hero h1 span{background:linear-gradient(135deg,var(--or),#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:18px;color:var(--tm);max-width:520px;margin:0 auto 36px;line-height:1.8}
+.hbtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.bp{padding:16px 36px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--or),var(--ord));color:#fff;font-size:17px;font-weight:800;box-shadow:0 8px 30px rgba(249,115,22,.4);transition:transform .2s}
+.bp:hover{transform:translateY(-2px)}
+.bs{padding:16px 36px;border-radius:12px;background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.12);font-size:17px;font-weight:700;transition:all .2s}
+.bs:hover{background:rgba(255,255,255,.1)}
+.bw{display:inline-block;padding:16px 48px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--gr),var(--grd));color:#fff;font-size:17px;font-weight:800;box-shadow:0 8px 30px rgba(37,211,102,.3);transition:transform .2s;cursor:pointer}
+.bw:hover{transform:translateY(-2px)}
+
+.sgrid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;padding:0 20px 60px}
+.sc{text-align:center;padding:24px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px}
+.sc-n{font-size:28px;font-weight:900;color:var(--or)}
+.sc-l{color:var(--tm);font-size:14px;margin-top:4px}
+
+.svgrid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.svc{padding:28px 24px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);transition:transform .2s}
+.svc:hover{transform:translateY(-6px)}
+.svi{width:56px;height:56px;border-radius:14px;font-size:26px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.svc h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.svc p{color:var(--tm);font-size:14px;line-height:1.7}
+
+.cta{max-width:800px;margin:0 auto 80px;background:linear-gradient(135deg,rgba(249,115,22,.12),rgba(234,88,12,.06));border:1px solid rgba(249,115,22,.2);border-radius:24px;padding:48px 40px;text-align:center}
+.cta h2{font-size:28px;font-weight:800;margin-bottom:12px}
+.cta p{color:var(--tm);margin-bottom:28px;font-size:16px}
+
+/* FORM */
+.fw{max-width:560px;margin:0 auto;padding:40px 20px}
+.fw h1{font-size:28px;font-weight:800;margin-bottom:8px;text-align:center}
+.fw>.sub{color:var(--tm);text-align:center;margin-bottom:32px}
+.fc{background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:20px;padding:28px 24px}
+
+.psteps{display:flex;justify-content:space-between;margin-bottom:8px}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;transition:all .3s;border:2px solid transparent;flex-shrink:0}
+.dot.done{background:linear-gradient(135deg,var(--or),var(--ord));color:#fff}
+.dot.cur{background:#fff;color:var(--or);border-color:var(--or);box-shadow:0 0 0 4px rgba(249,115,22,.2)}
+.dot.pend{background:rgba(255,255,255,.1);color:rgba(255,255,255,.3)}
+.pbg{height:4px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-bottom:28px}
+.pf{height:100%;background:linear-gradient(90deg,var(--or),var(--ord));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+
+.stc{display:none}
+.stc.on{display:block}
+.stitle{color:#fff;margin-bottom:20px;text-align:center;font-size:18px;font-weight:700}
+
+.crow{display:flex;gap:12px}
+.cc{flex:1;min-width:120px;padding:20px 16px;border-radius:14px;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08);color:rgba(255,255,255,.6);display:flex;flex-direction:column;align-items:center;gap:10px;transition:all .25s}
+.cc:hover{border-color:rgba(249,115,22,.4)}
+.cc.on{background:linear-gradient(135deg,rgba(249,115,22,.25),rgba(234,88,12,.15));border-color:var(--or);color:var(--or);box-shadow:0 0 20px rgba(249,115,22,.15);transform:translateY(-2px)}
+.cc .ci{font-size:36px}
+.cc .cl{font-size:14px;font-weight:600}
+
+.so{width:100%;padding:14px 18px;border-radius:12px;margin-bottom:10px;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08);color:#fff;display:flex;align-items:center;gap:14px;text-align:right;transition:all .2s}
+.so:hover{border-color:rgba(249,115,22,.3)}
+.so.on{background:rgba(249,115,22,.2);border-color:var(--or)}
+.so .si2{font-size:28px}
+.so .sn{font-weight:700;font-size:15px}
+.so .sd{color:var(--tm);font-size:12px;margin-top:3px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.chip{padding:8px 14px;border-radius:20px;font-size:13px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);transition:all .2s}
+.chip:hover{border-color:rgba(249,115,22,.4)}
+.chip.on{background:rgba(249,115,22,.25);border-color:var(--or);color:var(--or)}
+
+.fi{margin-bottom:16px}
+.fi label{display:block;color:rgba(255,255,255,.7);font-size:13px;margin-bottom:6px}
+.fi .req{color:var(--or)}
+.fi input,.fi select,.fi textarea{width:100%;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);color:#fff;font-size:15px;outline:none;transition:border .2s}
+.fi select{background:#1a1a2e;cursor:pointer}
+.fi textarea{resize:none}
+.fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--or)}
+.fi input::placeholder,.fi textarea::placeholder{color:rgba(255,255,255,.3)}
+.fi select option{background:#1a1a2e;color:#fff}
+
+.navrow{display:flex;gap:10px;margin-top:28px}
+.bbk{flex:1;padding:14px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:15px}
+.bnx{flex:2;padding:14px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--or),var(--ord));color:#fff;font-size:15px;font-weight:700;transition:all .2s}
+.bnx:disabled{background:rgba(255,255,255,.08);color:rgba(255,255,255,.3);cursor:not-allowed}
+.bsend{flex:2;padding:14px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--gr),var(--grd));color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+.bsend:disabled{background:rgba(255,255,255,.08);color:rgba(255,255,255,.3);cursor:not-allowed}
+
+.succ{text-align:center;padding:40px 20px}
+.succ .ei{font-size:64px;margin-bottom:16px}
+.succ h3{color:#4ade80;margin-bottom:8px;font-size:22px}
+.succ p{color:var(--tm);margin-bottom:24px}
+
+/* PARTS */
+.pw{max-width:900px;margin:0 auto;padding:40px 20px}
+.pw h1{font-size:28px;font-weight:800;margin-bottom:8px;text-align:center}
+.pw>.sub{color:var(--tm);text-align:center;margin-bottom:32px}
+.frow{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.fb{padding:8px 18px;border-radius:20px;font-size:13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);transition:all .2s}
+.fb.on,.fb:hover{background:linear-gradient(135deg,var(--or),var(--ord));color:#fff;border-color:transparent}
+.cartbtn{margin-right:auto;padding:8px 18px;border-radius:20px;background:rgba(37,211,102,.15);border:1px solid var(--gr);color:var(--gr);font-size:13px;display:none}
+.cpanel{background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.2);border-radius:14px;padding:20px;margin-bottom:20px;display:none}
+.cpanel.on{display:block}
+.cpanel h4{color:var(--gr);margin-bottom:14px}
+.ci2{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ci2 span:first-child{color:#fff;font-size:14px}
+.ci2 span:last-child{color:var(--or)}
+.ctot{border-top:1px solid rgba(255,255,255,.1);padding-top:12px;display:flex;justify-content:space-between;margin-bottom:16px}
+.ctot span:first-child{color:rgba(255,255,255,.7)}
+.ctot span:last-child{color:var(--or);font-weight:700;font-size:18px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+.pcard{background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:14px;overflow:hidden;transition:transform .2s}
+.pcard:hover{transform:translateY(-4px)}
+.pem{background:rgba(249,115,22,.1);padding:20px;text-align:center;font-size:42px}
+.pin{padding:12px}
+.pn{color:#fff;font-weight:600;font-size:13px;margin-bottom:4px;line-height:1.4}
+.pd{color:rgba(255,255,255,.4);font-size:11px;margin-bottom:10px}
+.pp{color:var(--or);font-weight:700;font-size:16px;margin-bottom:10px}
+.bac{width:100%;padding:8px;border-radius:8px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:var(--or);font-size:12px;font-weight:600;transition:all .2s}
+.bac.on{background:rgba(249,115,22,.25)}
+.bac:hover{background:rgba(249,115,22,.3)}
+
+.hint{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:10px;padding:12px;margin:16px 0;font-size:13px;color:var(--tm)}
+.div2{border-top:1px solid rgba(255,255,255,.08);padding-top:16px;margin-top:8px}
+
+footer{border-top:1px solid rgba(255,255,255,.06);padding:32px 20px;text-align:center;color:var(--td);font-size:13px}
+footer div{margin-bottom:6px}
+
+@media(max-width:600px){.navlinks{display:none}.crow{flex-direction:column}.cta{padding:32px 20px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="ni">
+    <div class="logo" onclick="show('home')">
+      <div class="logo-i">🔥</div>
+      <div><div class="logo-t">تك فيكس</div><div class="logo-s">صيانة وقطع غيار</div></div>
+    </div>
+    <div class="navlinks">
+      <button class="nb on" id="n-home"        onclick="show('home')">الرئيسية</button>
+      <button class="nb"    id="n-maintenance" onclick="show('maintenance')">حجز صيانة</button>
+      <button class="nb"    id="n-parts"       onclick="show('parts')">قطع الغيار</button>
+      <button class="nb"    id="n-tradein"     onclick="show('tradein')">بيع وتجديد</button>
+    </div>
+    <button class="ncta" onclick="show('maintenance')">🔧 طلب صيانة</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section id="s-home" class="sec on">
+  <div class="hero">
+    <div class="glow"></div>
+    <div class="badge">⚡ خدمة صيانة منزلية سريعة وموثوقة</div>
+    <h1>خبراء صيانة<br/><span>البوتجازات والسخانات</span></h1>
+    <p>نوفر صيانة احترافية في منزلك، بيع قطع غيار أصلية، وشراء أجهزتك القديمة بأفضل الأسعار</p>
+    <div class="hbtns">
+      <button class="bp" onclick="show('maintenance')">🔧 اطلب صيانة الآن</button>
+      <button class="bs" onclick="show('parts')">🛒 تصفح قطع الغيار</button>
+    </div>
+  </div>
+  <div class="sgrid">
+    <div class="sc"><div class="sc-n">+5000</div><div class="sc-l">عميل سعيد</div></div>
+    <div class="sc"><div class="sc-n">+10 سنوات</div><div class="sc-l">خبرة في المجال</div></div>
+    <div class="sc"><div class="sc-n">24/7</div><div class="sc-l">خدمة العملاء</div></div>
+    <div class="sc"><div class="sc-n">+500</div><div class="sc-l">قطعة غيار متاحة</div></div>
+  </div>
+  <!-- نطاق الخدمة الجغرافي -->
+  <div style="padding:0 20px 50px">
+    <div style="max-width:900px;margin:0 auto;background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(234,88,12,.04));border:1px solid rgba(249,115,22,.2);border-radius:20px;padding:32px 28px;text-align:center">
+      <div style="font-size:24px;margin-bottom:10px">📍</div>
+      <h2 style="font-size:20px;font-weight:800;color:#f97316;margin-bottom:14px">نطاق خدمتنا الجغرافي</h2>
+      <p style="color:rgba(255,255,255,.5);font-size:13px;margin-bottom:18px">نوفر خدمة الصيانة وقطع الغيار في المناطق التالية</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+        <span style="padding:8px 18px;border-radius:20px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#f97316;font-size:13px;font-weight:600">🏘️ مدينة الحوامدية</span>
+        <span style="padding:8px 18px;border-radius:20px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#f97316;font-size:13px;font-weight:600">🏘️ البدرشين</span>
+        <span style="padding:8px 18px;border-radius:20px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#f97316;font-size:13px;font-weight:600">🏘️ منيل شيحة</span>
+        <span style="padding:8px 18px;border-radius:20px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#f97316;font-size:13px;font-weight:600">🏘️ طموة</span>
+        <span style="padding:8px 18px;border-radius:20px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#f97316;font-size:13px;font-weight:600">🏘️ سقارة</span>
+        <span style="padding:8px 18px;border-radius:20px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#f97316;font-size:13px;font-weight:600">🏘️ المريوطية</span>
+        <span style="padding:8px 18px;border-radius:20px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#f97316;font-size:13px;font-weight:600">🏘️ أم خنان</span>
+        <span style="padding:8px 18px;border-radius:20px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#f97316;font-size:13px;font-weight:600">🏘️ منى الأمير</span>
+        <span style="padding:8px 18px;border-radius:20px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#f97316;font-size:13px;font-weight:600">🏘️ عرب التل</span>
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 20px 80px">
+    <h2 style="text-align:center;font-size:30px;font-weight:800;margin-bottom:40px">خدماتنا المتكاملة</h2>
+    <div class="svgrid">
+      <div class="svc"><div class="svi" style="background:rgba(249,115,22,.15)">🔧</div><h3 style="color:#f97316">صيانة منزلية</h3><p>نصلك أينما كنت لإصلاح جهازك بأسرع وقت وأفضل أسعار.</p></div>
+      <div class="svc"><div class="svi" style="background:rgba(59,130,246,.15)">🛒</div><h3 style="color:#3b82f6">قطع غيار أصلية</h3><p>متجر متكامل لجميع قطع البوتجازات والسخانات بأسعار الجملة.</p></div>
+      <div class="svc"><div class="svi" style="background:rgba(139,92,246,.15)">✨</div><h3 style="color:#8b5cf6">تجديد الأجهزة</h3><p>نجدد جهازك القديم ليبدو ويعمل كالجديد تماماً.</p></div>
+      <div class="svc"><div class="svi" style="background:rgba(16,185,129,.15)">💰</div><h3 style="color:#10b981">شراء أجهزة قديمة</h3><p>نشتري جهازك القديم بأفضل سعر أو نتيح لك الاستبدال.</p></div>
+    </div>
+  </div>
+  <div style="padding:0 20px 80px">
+    <div class="cta">
+      <h2>هل جهازك يحتاج إصلاحا؟</h2>
+      <p>لا تتردد — تواصل معنا الآن وسنصل إليك في أقرب وقت</p>
+      <button class="bw" onclick="show('maintenance')">📲 تواصل الآن عبر واتس آب</button>
+    </div>
+  </div>
+</section>
+
+<!-- MAINTENANCE -->
+<section id="s-maintenance" class="sec">
+  <div class="fw">
+    <h1>🔧 حجز خدمة صيانة</h1>
+    <p class="sub">أجب على الأسئلة التالية وسنتواصل معك فوراً</p>
+    <div class="fc">
+      <div class="psteps" id="msteps"></div>
+      <div class="pbg"><div class="pf" id="mprog" style="width:0%"></div></div>
+
+      <div class="stc on" id="ms0">
+        <p class="stitle">ما هو الجهاز؟</p>
+        <div class="crow">
+          <button class="cc" id="cc1" onclick="selDev('بوتجاز')"><span class="ci">🍳</span><span class="cl">بوتجاز</span></button>
+          <button class="cc" id="cc2" onclick="selDev('سخان غاز')"><span class="ci">🚿</span><span class="cl">سخان غاز</span></button>
+        </div>
+      </div>
+
+      <div class="stc" id="ms1">
+        <p class="stitle">نوع الخدمة المطلوبة</p>
+        <button class="so" id="sv1" onclick="selSvc(this,'صيانة جهاز حالي')"><span class="si2">🔧</span><div><div class="sn">صيانة جهاز حالي</div><div class="sd">إصلاح مشكلة في جهازك</div></div></button>
+        <button class="so" id="sv2" onclick="selSvc(this,'توصيل وتثبيت جهاز جديد')"><span class="si2">📦</span><div><div class="sn">توصيل وتثبيت جهاز جديد</div><div class="sd">تركيب جهاز اشتريته</div></div></button>
+        <button class="so" id="sv3" onclick="selSvc(this,'تجديد شامل لجهاز قديم')"><span class="si2">✨</span><div><div class="sn">تجديد شامل لجهاز قديم</div><div class="sd">صيانة كاملة وتجديد مظهر</div></div></button>
+      </div>
+
+      <div class="stc" id="ms2">
+        <p class="stitle">تفاصيل الجهاز</p>
+        <div class="fi"><label>الماركة <span class="req">*</span></label><select id="mbrand" onchange="MD.brand=this.value;updNav()"><option value="" disabled selected>اختر الماركة</option></select></div>
+        <div class="fi"><label>المشكلة <span class="req">*</span></label><div class="chips" id="mchips"></div></div>
+        <div class="fi"><label>أو اكتب وصف مخصص</label><textarea id="mcustom" rows="3" placeholder="اشرح المشكلة بتفصيل..." oninput="MD.customProblem=this.value;if(this.value){MD.problem='';document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));}updNav()"></textarea></div>
+      </div>
+
+      <div class="stc" id="ms3">
+        <p class="stitle">بياناتك الشخصية</p>
+        <div class="fi"><label>الاسم <span class="req">*</span></label><input type="text" id="mname" placeholder="اسمك الكامل" oninput="MD.name=this.value;updNav()"/></div>
+        <div class="fi"><label>رقم الهاتف <span class="req">*</span></label><input type="tel" id="mphone" placeholder="01xxxxxxxxx" oninput="MD.phone=this.value;updNav()"/></div>
+        <div class="fi"><label>العنوان التفصيلي <span class="req">*</span></label><input type="text" id="maddr" placeholder="الشارع، العمارة، الدور، الشقة" oninput="MD.address=this.value;updNav()"/></div>
+        <div class="fi"><label>المنطقة <span class="req">*</span></label>
+          <select id="mcity" onchange="MD.city=this.value;updNav()">
+            <option value="" disabled selected>اختر المنطقة</option>
+            <option>مدينة الحوامدية</option><option>البدرشين</option><option>منيل شيحة</option>
+            <option>طموة</option><option>سقارة</option><option>المريوطية</option>
+            <option>أم خنان</option><option>منى الأمير</option><option>عرب التل</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="stc" id="msucc">
+        <div class="succ"><div class="ei">✅</div><h3>تم إرسال طلبك!</h3><p>سيتواصل معك الفني في أقرب وقت ممكن.</p><button class="bp" onclick="resetM()">إغلاق</button></div>
+      </div>
+
+      <div class="navrow" id="mnav">
+        <button class="bbk" id="mback" style="display:none" onclick="mPrev()">← السابق</button>
+        <button class="bnx" id="mnext" onclick="mNext()" disabled>التالي ←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTS -->
+<section id="s-parts" class="sec">
+  <div class="pw">
+    <h1>🛒 متجر قطع الغيار</h1>
+    <p class="sub">قطع غيار أصلية للبوتجازات والسخانات بأفضل الأسعار</p>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:20px;padding:24px">
+      <div class="frow">
+        <button class="fb on" onclick="flt(this,'الكل')">الكل</button>
+        <button class="fb"    onclick="flt(this,'بوتجاز')">بوتجاز</button>
+        <button class="fb"    onclick="flt(this,'سخان غاز')">سخان غاز</button>
+        <button class="cartbtn" id="ctoggle" onclick="toggleCart()">🛒 السلة (<span id="ccount">0</span>)</button>
+      </div>
+      <div class="cpanel" id="cpanel">
+        <h4>🛒 سلة الشراء</h4>
+        <div id="citems"></div>
+        <div class="ctot"><span>الإجمالي</span><span id="ctotal">0 ج.م</span></div>
+        <button class="bw" style="width:100%;padding:12px;font-size:15px" onclick="sendCart()">📲 اطلب عبر واتس آب</button>
+      </div>
+      <div class="pgrid" id="pgrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRADEIN -->
+<section id="s-tradein" class="sec">
+  <div class="fw">
+    <h1>💰 بيع أو جدّد جهازك</h1>
+    <p class="sub">نشتري جهازك القديم أو نجدده ليعود كالجديد تماماً</p>
+    <div class="fc">
+      <div id="tiform">
+        <div class="fi" style="margin-bottom:20px">
+          <label style="display:block;margin-bottom:10px">ماذا تريد؟ <span class="req">*</span></label>
+          <div class="crow">
+            <button class="cc" id="tis" onclick="selTi('sell')"><span class="ci">💰</span><span class="cl">أبيع جهازي</span></button>
+            <button class="cc" id="tir" onclick="selTi('renew')"><span class="ci">✨</span><span class="cl">تجديد جهازي</span></button>
+          </div>
+        </div>
+        <div class="fi"><label>نوع الجهاز <span class="req">*</span></label>
+          <select id="tidev" onchange="TD.deviceType=this.value;tibrands();valTi()">
+            <option value="" disabled selected>اختر الجهاز</option>
+            <option>بوتجاز</option><option>سخان غاز</option>
+          </select></div>
+        <div class="fi"><label>الماركة <span class="req">*</span></label>
+          <select id="tibrand" disabled onchange="TD.brand=this.value;valTi()">
+            <option value="" disabled selected>اختر الجهاز أولاً</option>
+          </select></div>
+        <div class="fi"><label>العمر التقريبي <span class="req">*</span></label>
+          <select id="tiage" onchange="TD.age=this.value;valTi()">
+            <option value="" disabled selected>كم عمر الجهاز؟</option>
+            <option>أقل من سنة</option><option>1-3 سنوات</option>
+            <option>3-5 سنوات</option><option>5-10 سنوات</option><option>أكثر من 10 سنوات</option>
+          </select></div>
+        <div class="fi"><label>الحالة العامة <span class="req">*</span></label>
+          <select id="ticond" onchange="TD.condition=this.value;valTi()">
+            <option value="" disabled selected>كيف حالة الجهاز؟</option>
+            <option>ممتاز - يعمل بدون مشاكل</option>
+            <option>جيد - يعمل مع بعض العيوب</option>
+            <option>متوسط - يحتاج إصلاحات</option>
+            <option>سيئ - لا يعمل</option>
+          </select></div>
+        <div class="div2">
+          <div class="fi"><label>اسمك <span class="req">*</span></label><input type="text" id="tiname" placeholder="الاسم الكامل" oninput="TD.name=this.value;valTi()"/></div>
+          <div class="fi"><label>رقم الهاتف <span class="req">*</span></label><input type="tel" id="tiphone" placeholder="01xxxxxxxxx" oninput="TD.phone=this.value;valTi()"/></div>
+          <div class="fi"><label>المنطقة <span class="req">*</span></label>
+            <select id="ticity" onchange="TD.city=this.value;valTi()">
+              <option value="" disabled selected>اختر المنطقة</option>
+              <option>مدينة الحوامدية</option><option>البدرشين</option><option>منيل شيحة</option>
+              <option>طموة</option><option>سقارة</option><option>المريوطية</option>
+              <option>أم خنان</option><option>منى الأمير</option><option>عرب التل</option>
+            </select></div>
+          <div class="fi"><label>ملاحظات إضافية</label><textarea id="tinotes" rows="3" placeholder="أي تفاصيل إضافية..." oninput="TD.notes=this.value"></textarea></div>
+        </div>
+        <div class="hint">💡 يمكنك إرسال صور الجهاز عبر واتس آب بعد إرسال الطلب لتقييم أفضل.</div>
+        <button class="bsend" id="tisend" style="width:100%" disabled onclick="sendTi()">📲 إرسال الطلب عبر واتس آب</button>
+      </div>
+      <div class="succ" id="tisucc" style="display:none">
+        <div class="ei">🔄</div><h3>تم إرسال طلبك بنجاح!</h3>
+        <p>سنتواصل معك قريباً لتقييم جهازك.</p>
+        <button class="bp" onclick="resetTi()">طلب جديد</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>🔥 تك فيكس للصيانة وقطع الغيار &copy; 2025</div>
+  <div>جميع الحقوق محفوظة | خدمة العملاء: 01117735952</div>
+  <div style="margin-top:8px;font-size:11px">نخدم: مدينة الحوامدية | البدرشين | منيل شيحة | طموة | سقارة | المريوطية | أم خنان | منى الأمير | عرب التل</div>
+</footer>
+
+<script>
+const WA="201117735952";
+const BR={
+  "\u0628\u0648\u062a\u062c\u0627\u0632":["\u0643\u0631\u064a\u0627\u0632\u064a","\u0634\u0627\u0631\u0628","\u062a\u064a\u0643\u0627","\u0643\u0648\u0646\u0643\u0648\u0631\u062f","\u0623\u0645\u0631\u064a\u0643\u0627\u0646\u0627","\u0632\u0627\u0646\u0648\u0633\u064a","\u0622\u0631\u062f\u064a\u0645","\u0647\u0627\u064a\u0631","\u064a\u0648\u0646\u064a\u0648\u0646 \u0625\u064a\u0631","\u0623\u062e\u0631\u0649"],
+  "\u0633\u062e\u0627\u0646 \u063a\u0627\u0632":["\u062c\u0648\u0646\u0627\u064a","\u0625\u064a\u062a\u0627\u0644","\u0643\u0631\u064a\u0627\u0632\u064a","\u0641\u0631\u064a\u0634","\u062a\u064a\u0631\u0645\u0627","\u0647\u0627\u0645\u064a\u0644\u062a\u0648\u0646","\u0643\u0644\u064a\u0645\u0627","\u0623\u062e\u0631\u0649"]
+};
+const PR={
+  "\u0628\u0648\u062a\u062c\u0627\u0632":["\u0627\u0634\u062a\u0639\u0627\u0644 \u0627\u0644\u0634\u0639\u0644\u0627\u062a","\u062e\u0644\u0644 \u0641\u064a \u0627\u0644\u0641\u0631\u0646","\u062a\u0633\u0631\u064a\u0628 \u063a\u0627\u0632","\u0645\u0624\u0642\u062a \u0644\u0627 \u064a\u0639\u0645\u0644","\u0635\u062f\u0623 / \u062a\u0644\u0641 \u0647\u064a\u0643\u0644","\u0623\u062e\u0631\u0649"],
+  "\u0633\u062e\u0627\u0646 \u063a\u0627\u0632":["\u0644\u0627 \u064a\u0634\u062a\u0639\u0644","\u0636\u0639\u0641 \u0627\u0644\u0644\u0647\u0628","\u062a\u0633\u0631\u064a\u0628 \u0645\u0627\u0621","\u062a\u0633\u0631\u064a\u0628 \u063a\u0627\u0632","\u0635\u0648\u062a \u063a\u064a\u0631 \u0637\u0628\u064a\u0639\u064a","\u0623\u062e\u0631\u0649"]
+};
+const PARTS=[
+  {id:1,name:"\u0634\u0639\u0644\u0629 \u0628\u0648\u062a\u062c\u0627\u0632 \u064a\u0648\u0646\u064a\u0641\u0631\u0633\u0627\u0644",cat:"\u0628\u0648\u062a\u062c\u0627\u0632",price:85,icon:"\uD83D\uDD25",desc:"\u062a\u0646\u0627\u0633\u0628 \u0645\u0639\u0638\u0645 \u0645\u0627\u0631\u0643\u0627\u062a \u0627\u0644\u0628\u0648\u062a\u062c\u0627\u0632\u0627\u062a"},
+  {id:2,name:"\u062a\u0631\u0645\u0648\u0633\u062a\u0627\u062a \u0633\u062e\u0627\u0646 \u063a\u0627\u0632",cat:"\u0633\u062e\u0627\u0646 \u063a\u0627\u0632",price:220,icon:"\uD83C\uDF21\uFE0F",desc:"\u0623\u0635\u0644\u064a \u0645\u0646 \u0627\u0644\u0645\u0635\u0646\u0639"},
+  {id:3,name:"\u062d\u0631\u0642 \u0628\u0648\u062a\u062c\u0627\u0632 \u0643\u0631\u064a\u0627\u0632\u064a",cat:"\u0628\u0648\u062a\u062c\u0627\u0632",price:150,icon:"\u2699\uFE0F",desc:"\u0642\u0637\u0639\u0629 \u0623\u0635\u0644\u064a\u0629 \u0645\u0639\u062a\u0645\u062f\u0629"},
+  {id:4,name:"\u0635\u0645\u0627\u0645 \u0623\u0645\u0627\u0646 \u0633\u062e\u0627\u0646 \u063a\u0627\u0632",cat:"\u0633\u062e\u0627\u0646 \u063a\u0627\u0632",price:180,icon:"\uD83D\uDD27",desc:"\u064a\u0646\u0627\u0633\u0628 \u062c\u0645\u064a\u0639 \u0627\u0644\u0623\u062d\u062c\u0627\u0645"},
+  {id:5,name:"\u0632\u062c\u0627\u062c \u0641\u0631\u0646 \u0628\u0648\u062a\u062c\u0627\u0632",cat:"\u0628\u0648\u062a\u062c\u0627\u0632",price:320,icon:"\uD83E\uDE9F",desc:"\u0632\u062c\u0627\u062c \u0645\u0642\u0633\u0651\u0649 \u0639\u0627\u0644\u064a \u0627\u0644\u062d\u0631\u0627\u0631\u0629"},
+  {id:6,name:"\u0645\u0648\u0642\u062f \u063a\u0627\u0632 \u0643\u0627\u0645\u0644",cat:"\u0628\u0648\u062a\u062c\u0627\u0632",price:95,icon:"\uD83D\uDD29",desc:"\u064a\u0648\u0646\u064a\u0641\u0631\u0633\u0627\u0644 \u064a\u0646\u0627\u0633\u0628 \u0643\u0644 \u0627\u0644\u0645\u0627\u0631\u0643\u0627\u062a"}
+];
+
+function waOpen(msg){window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank")}
+function now(){return new Date().toLocaleString("ar-EG")}
+function sep(){return"\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501"}
+
+// NAVIGATION
+function show(id){
+  document.querySelectorAll(".sec").forEach(s=>s.classList.remove("on"));
+  document.querySelectorAll(".nb").forEach(b=>b.classList.remove("on"));
+  document.getElementById("s-"+id).classList.add("on");
+  var nb=document.getElementById("n-"+id);
+  if(nb)nb.classList.add("on");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// ── MAINTENANCE ──
+var mStep=0;
+var MD={deviceType:"",serviceType:"",brand:"",problem:"",customProblem:"",name:"",phone:"",address:"",city:""};
+
+function buildDots(){
+  var c=document.getElementById("msteps");c.innerHTML="";
+  for(var i=0;i<4;i++){
+    var d=document.createElement("div");
+    d.className="dot "+(i<mStep?"done":i===mStep?"cur":"pend");
+    d.textContent=i<mStep?"\u2713":String(i+1);
+    c.appendChild(d);
+  }
+  document.getElementById("mprog").style.width=(mStep/3*100)+"%";
+}
+
+function canNext(){
+  if(mStep===0)return!!MD.deviceType;
+  if(mStep===1)return!!MD.serviceType;
+  if(mStep===2)return!!(MD.brand&&(MD.problem||MD.customProblem));
+  if(mStep===3)return!!(MD.name&&MD.phone&&MD.address&&MD.city);
+  return false;
+}
+
+function updNav(){
+  var ok=canNext();
+  var nb=document.getElementById("mnext");
+  var sb=document.getElementById("msend");
+  document.getElementById("mback").style.display=mStep>0?"":"none";
+  if(mStep<3){
+    if(nb){nb.style.display="";nb.disabled=!ok;}
+    if(sb)sb.style.display="none";
+  }else{
+    if(nb)nb.style.display="none";
+    if(sb){sb.style.display="";sb.disabled=!ok;}
+  }
+  buildDots();
+}
+
+function mNext(){
+  if(!canNext())return;
+  document.getElementById("ms"+mStep).classList.remove("on");
+  mStep++;
+  if(mStep===2)fillStep2();
+  document.getElementById("ms"+mStep).classList.add("on");
+  if(mStep===3){
+    var nb=document.getElementById("mnext");
+    if(nb)nb.outerHTML="<button class=\"bsend\" id=\"msend\" onclick=\"mSend()\" style=\"flex:2\" disabled>\uD83D\uDCF2 \u0625\u0631\u0633\u0627\u0644 \u0639\u0628\u0631 \u0648\u0627\u062a\u0633 \u0622\u0628</button>";
+  }
+  updNav();
+}
+
+function mPrev(){
+  document.getElementById("ms"+mStep).classList.remove("on");
+  if(mStep===3){
+    var sb=document.getElementById("msend");
+    if(sb)sb.outerHTML="<button class=\"bnx\" id=\"mnext\" onclick=\"mNext()\" style=\"flex:2\">\u0627\u0644\u062a\u0627\u0644\u064a \u2190</button>";
+  }
+  mStep--;
+  document.getElementById("ms"+mStep).classList.add("on");
+  updNav();
+}
+
+function selDev(v){
+  MD.deviceType=v;
+  document.getElementById("cc1").classList.toggle("on",v==="\u0628\u0648\u062a\u062c\u0627\u0632");
+  document.getElementById("cc2").classList.toggle("on",v==="\u0633\u062e\u0627\u0646 \u063a\u0627\u0632");
+  updNav();
+}
+
+function selSvc(el,v){
+  MD.serviceType=v;
+  document.querySelectorAll(".so").forEach(b=>b.classList.remove("on"));
+  el.classList.add("on");
+  updNav();
+}
+
+function fillStep2(){
+  var sel=document.getElementById("mbrand");
+  sel.innerHTML="<option value=\"\" disabled selected>\u0627\u062e\u062a\u0631 \u0627\u0644\u0645\u0627\u0631\u0643\u0629</option>";
+  (BR[MD.deviceType]||[]).forEach(function(b){var o=document.createElement("option");o.value=b;o.textContent=b;sel.appendChild(o);});
+  var ch=document.getElementById("mchips");ch.innerHTML="";
+  (PR[MD.deviceType]||[]).forEach(function(p){
+    var btn=document.createElement("button");btn.className="chip";btn.textContent=p;
+    btn.onclick=function(){MD.problem=p;MD.customProblem="";document.getElementById("mcustom").value="";document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));btn.classList.add("on");updNav();};
+    ch.appendChild(btn);
+  });
+  MD.brand="";MD.problem="";MD.customProblem="";
+}
+
+function mSend(){
+  var msg="\uD83D\uDEA8 *\u0637\u0644\u0628 \u0635\u064a\u0627\u0646\u0629 \u062c\u062f\u064a\u062f* \uD83D\uDEA8\n"+sep()+"\n\uD83D\uDC64 *\u0627\u0644\u0639\u0645\u064a\u0644:* "+MD.name+"\n\uD83D\uDCDE *\u0627\u0644\u0647\u0627\u062a\u0641:* "+MD.phone+"\n\uD83D\uDCCD *\u0627\u0644\u0639\u0646\u0648\u0627\u0646:* "+MD.address+"\u060c "+MD.city+"\n"+sep()+"\n\uD83D\uDEE0\uFE0F *\u0627\u0644\u062c\u0647\u0627\u0632:* "+MD.deviceType+" - "+MD.brand+"\n\uD83D\uDCBC *\u0646\u0648\u0639 \u0627\u0644\u062e\u062f\u0645\u0629:* "+MD.serviceType+"\n\uD83D\uDCDD *\u0627\u0644\u0645\u0634\u0643\u0644\u0629:* "+(MD.problem||MD.customProblem)+"\n"+sep()+"\n\u23F0 *\u0648\u0642\u062a \u0627\u0644\u0637\u0644\u0628:* "+now();
+  waOpen(msg);
+  document.getElementById("ms3").classList.remove("on");
+  document.getElementById("msucc").classList.add("on");
+  document.getElementById("mnav").style.display="none";
+}
+
+function resetM(){
+  mStep=0;MD={deviceType:"",serviceType:"",brand:"",problem:"",customProblem:"",name:"",phone:"",address:"",city:""};
+  document.querySelectorAll(".stc").forEach(s=>s.classList.remove("on"));
+  document.getElementById("ms0").classList.add("on");
+  document.getElementById("mnav").style.display="";
+  var sb=document.getElementById("msend");
+  if(sb)sb.outerHTML="<button class=\"bnx\" id=\"mnext\" onclick=\"mNext()\" style=\"flex:2\" disabled>\u0627\u0644\u062a\u0627\u0644\u064a \u2190</button>";
+  document.querySelectorAll(".cc").forEach(c=>c.classList.remove("on"));
+  document.querySelectorAll(".so").forEach(b=>b.classList.remove("on"));
+  updNav();show("home");
+}
+
+buildDots();updNav();
+
+// ── PARTS ──
+var cart=[];var pf="\u0627\u0644\u0643\u0644";
+
+function renderParts(){
+  var g=document.getElementById("pgrid");g.innerHTML="";
+  var list=pf==="\u0627\u0644\u0643\u0644"?PARTS:PARTS.filter(p=>p.cat===pf);
+  list.forEach(function(p){
+    var ic=cart.find(i=>i.id===p.id);
+    var d=document.createElement("div");d.className="pcard";
+    d.innerHTML="<div class=\"pem\">"+p.icon+"</div><div class=\"pin\"><div class=\"pn\">"+p.name+"</div><div class=\"pd\">"+p.desc+"</div><div class=\"pp\">"+p.price.toLocaleString()+" \u062c.\u0645</div><button class=\"bac"+(ic?" on":"")+"\" onclick=\"addCart("+p.id+")\">"+(ic?"\u2713 \u0641\u064a \u0627\u0644\u0633\u0644\u0629 ("+ic.qty+")":"+ \u0623\u0636\u0641 \u0644\u0644\u0633\u0644\u0629")+"</button></div>";
+    g.appendChild(d);
+  });
+}
+
+function flt(btn,cat){
+  pf=cat;
+  document.querySelectorAll(".fb").forEach(b=>b.classList.remove("on"));
+  btn.classList.add("on");renderParts();
+}
+
+function addCart(id){
+  var p=PARTS.find(x=>x.id===id);var ex=cart.find(i=>i.id===id);
+  if(ex)ex.qty++;else cart.push({id:p.id,name:p.name,price:p.price,qty:1});
+  updCart();renderParts();
+}
+
+function updCart(){
+  var tot=cart.reduce((s,i)=>s+i.qty,0);
+  var btn=document.getElementById("ctoggle");
+  btn.style.display=tot>0?"":"none";
+  document.getElementById("ccount").textContent=tot;
+  var list=document.getElementById("citems");list.innerHTML="";
+  cart.forEach(function(it){
+    var d=document.createElement("div");d.className="ci2";
+    d.innerHTML="<span>"+it.name+" \u00d7 "+it.qty+"</span><span>"+(it.price*it.qty).toLocaleString()+" \u062c.\u0645</span>";
+    list.appendChild(d);
+  });
+  document.getElementById("ctotal").textContent=cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString()+" \u062c.\u0645";
+}
+
+function toggleCart(){document.getElementById("cpanel").classList.toggle("on")}
+
+function sendCart(){
+  if(!cart.length)return;
+  var items=cart.map(i=>"\u2022 "+i.name+" \u00d7 "+i.qty+" = "+(i.price*i.qty).toLocaleString()+" \u062c.\u0645").join("\n");
+  var tot=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  var msg="\uD83D\uDED2 *\u0637\u0644\u0628 \u0642\u0637\u0639 \u063a\u064a\u0627\u0631* \uD83D\uDED2\n"+sep()+"\n"+items+"\n"+sep()+"\n\uD83D\uDCB0 *\u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a:* "+tot.toLocaleString()+" \u062c.\u0645\n"+sep()+"\n\u23F0 *\u0648\u0642\u062a \u0627\u0644\u0637\u0644\u0628:* "+now();
+  waOpen(msg);
+}
+
+renderParts();
+
+// ── TRADE-IN ──
+var TD={requestType:"",deviceType:"",brand:"",age:"",condition:"",name:"",phone:"",city:"",notes:""};
+
+function selTi(t){
+  TD.requestType=t;
+  document.getElementById("tis").classList.toggle("on",t==="sell");
+  document.getElementById("tir").classList.toggle("on",t==="renew");
+  valTi();
+}
+
+function tibrands(){
+  var sel=document.getElementById("tibrand");
+  sel.innerHTML="<option value=\"\" disabled selected>\u0627\u062e\u062a\u0631 \u0627\u0644\u0645\u0627\u0631\u0643\u0629</option>";
+  var list=BR[TD.deviceType]||[];
+  list.forEach(function(b){var o=document.createElement("option");o.value=b;o.textContent=b;sel.appendChild(o);});
+  sel.disabled=list.length===0;TD.brand="";
+}
+
+function valTi(){
+  var ok=!!(TD.requestType&&TD.deviceType&&TD.brand&&TD.age&&TD.condition&&TD.name&&TD.phone&&TD.city);
+  document.getElementById("tisend").disabled=!ok;
+}
+
+function sendTi(){
+  var type=TD.requestType==="sell"?"\u0628\u064a\u0639 \u062c\u0647\u0627\u0632":"\u062a\u062c\u062f\u064a\u062f \u062c\u0647\u0627\u0632";
+  var msg="\uD83D\uDD04 *\u0637\u0644\u0628 "+type+"* \uD83D\uDD04\n"+sep()+"\n\uD83D\uDC64 *\u0627\u0644\u0639\u0645\u064a\u0644:* "+TD.name+"\n\uD83D\uDCDE *\u0627\u0644\u0647\u0627\u062a\u0641:* "+TD.phone+"\n\uD83D\uDCCD *\u0627\u0644\u0645\u0646\u0637\u0642\u0629:* "+TD.city+"\n"+sep()+"\n\uD83D\uDCE6 *\u0646\u0648\u0639 \u0627\u0644\u062c\u0647\u0627\u0632:* "+TD.deviceType+"\n\uD83C\uDFF7\uFE0F *\u0627\u0644\u0645\u0627\u0631\u0643\u0629:* "+TD.brand+"\n\uD83D\uDCC5 *\u0627\u0644\u0639\u0645\u0631:* "+TD.age+"\n\uD83D\uDCCA *\u0627\u0644\u062D\u0627\u0644\u0629:* "+TD.condition+"\n\uD83D\uDCDD *\u062a\u0641\u0627\u0635\u064a\u0644:* "+(TD.notes||"\u0644\u0627 \u064a\u0648\u062c\u062f")+"\n"+sep()+"\n\u23F0 *\u0648\u0642\u062a \u0627\u0644\u0637\u0644\u0628:* "+now();
+  waOpen(msg);
+  document.getElementById("tiform").style.display="none";
+  document.getElementById("tisucc").style.display="block";
+}
+
+function resetTi(){
+  TD={requestType:"",deviceType:"",brand:"",age:"",condition:"",name:"",phone:"",city:"",notes:""};
+  document.getElementById("tiform").style.display="";
+  document.getElementById("tisucc").style.display="none";
+  ["tis","tir"].forEach(id=>document.getElementById(id).classList.remove("on"));
+  ["tidev","tibrand","tiage","ticond","tiname","tiphone","ticity","tinotes"].forEach(id=>{
+    var el=document.getElementById(id);if(el)el.value="";
+  });
+  document.getElementById("tibrand").disabled=true;
+  document.getElementById("tisend").disabled=true;
+}
+</script>
+</body>
+</html>
